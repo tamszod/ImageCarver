@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+	<header>
+		<crv version="1.0"/>
+		<project version="1.0"/>
+		<creation_date>31.03.2026 01:31</creation_date>
+		<modification_date>31.03.2026 01:31</modification_date>
+	</header>
+	<view>
+		<size width="2481" height="3507"/>
+	</view>
+	<annotations>
+		<line id="1">
+			<points>
+				<point x="95.849998" y="98.550003"/>
+				<point x="100.650002" y="325.450012"/>
+			</points>
+			<color r="255" g="0" b="0" a="255"/>
+			<line_width>5</line_width>
+		</line>
+		<rectangle id="2">
+			<bbox left="493.540009" top="900.429993" right="1498.430054" bottom="2000.989990"/>
+			<color r="200" g="200" b="100" a="255"/>
+			<fill_color r="0" g="0" b="0" a="255"/>
+			<line_width>2</line_width>
+		</rectangle>
+		<oval id="3">
+			<bbox left="493.540009" top="900.429993" right="1498.430054" bottom="2000.989990"/>
+			<color r="151" g="151" b="252" a="255"/>
+			<fill_color r="45" g="99" b="99" a="255"/>
+			<line_width>10</line_width>
+		</oval>
+	</annotations>
+</project>
+

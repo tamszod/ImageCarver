@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>18.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{8fcbfac1-2aea-4220-9bfd-0802a1cc5dbc}</ProjectGuid>
+    <RootNamespace>Page</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>CRV</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v145</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>D:\Projects\ImageCarver\ext;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\core\graphics\formats\crv_bitmap.cpp" />
+    <ClCompile Include="..\core\graphics\formats\crv_commonimage.cpp" />
+    <ClCompile Include="..\core\graphics\objects\crv_commonfigureobject.cpp" />
+    <ClCompile Include="..\core\graphics\objects\crv_commonlineobject.cpp" />
+    <ClCompile Include="..\core\graphics\objects\crv_lineobject.cpp" />
+    <ClCompile Include="..\core\graphics\objects\crv_object.cpp" />
+    <ClCompile Include="..\core\graphics\objects\crv_ovalobject.cpp" />
+    <ClCompile Include="..\core\graphics\objects\crv_rectangleobject.cpp" />
+    <ClCompile Include="..\core\graphics\render\crv_brush.cpp" />
+    <ClCompile Include="..\core\graphics\render\crv_canvas.cpp" />
+    <ClCompile Include="..\core\graphics\render\crv_painttool.cpp" />
+    <ClCompile Include="..\core\graphics\render\crv_pen.cpp" />
+    <ClCompile Include="..\core\logic\crv_project.cpp" />
+    <ClCompile Include="..\core\logic\crv_projectload.cpp" />
+    <ClCompile Include="..\core\logic\crv_projectsave.cpp" />
+    <ClCompile Include="..\utilities\crv_helper.cpp" />
+    <ClCompile Include="..\utilities\helpers\generateuuid.cpp" />
+    <ClCompile Include="..\utilities\type.cpp" />
+    <ClCompile Include="..\utilities\types\crv_color.cpp" />
+    <ClCompile Include="..\utilities\types\general.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\core\graphics\formats\crv_bitmap.h" />
+    <ClInclude Include="..\core\graphics\formats\crv_commonimage.h" />
+    <ClInclude Include="..\core\graphics\objects\crv_commonfigureobject.h" />
+    <ClInclude Include="..\core\graphics\objects\crv_commonlineobject.h" />
+    <ClInclude Include="..\core\graphics\objects\crv_lineobject.h" />
+    <ClInclude Include="..\core\graphics\objects\crv_object.h" />
+    <ClInclude Include="..\core\graphics\objects\crv_ovalobject.h" />
+    <ClInclude Include="..\core\graphics\objects\crv_rectangleobject.h" />
+    <ClInclude Include="..\core\graphics\render\crv_brush.h" />
+    <ClInclude Include="..\core\graphics\render\crv_canvas.h" />
+    <ClInclude Include="..\core\graphics\render\crv_painttool.h" />
+    <ClInclude Include="..\core\graphics\render\crv_pen.h" />
+    <ClInclude Include="..\core\logic\crv_project.h" />
+    <ClInclude Include="..\core\logic\crv_projectload.h" />
+    <ClInclude Include="..\core\logic\crv_projectsave.h" />
+    <ClInclude Include="..\ext\RapidXML\rapidxml.hpp" />
+    <ClInclude Include="..\ext\RapidXML\rapidxml_print.hpp" />
+    <ClInclude Include="..\utilities\crv_helper.h" />
+    <ClInclude Include="..\utilities\helpers\generateuuid.h" />
+    <ClInclude Include="..\utilities\helpers\time.h" />
+    <ClInclude Include="..\utilities\type.h" />
+    <ClInclude Include="..\utilities\types\bytes.h" />
+    <ClInclude Include="..\utilities\types\crv_color.h" />
+    <ClInclude Include="..\utilities\types\crv_xmlcommon.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\core\graphics\render\crv_canvas.inl" />
+    <None Include="..\core\logic\crv_project.inl" />
+    <None Include="..\utilities\types\crv_xmlcommon.inl" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

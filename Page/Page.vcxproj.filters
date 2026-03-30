@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Core">
+      <UniqueIdentifier>{6c069d15-3e54-441f-94c2-42db1f4ed96d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Graphics">
+      <UniqueIdentifier>{f20a47f5-3001-4a72-9547-f0a8ec7f65ed}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ext">
+      <UniqueIdentifier>{bf86620e-ee88-4ad2-bf0f-2eb2ee91384f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Ext\RapidXML">
+      <UniqueIdentifier>{aeb5208d-fdd9-4e52-a86b-3e0b01fbd817}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Logic">
+      <UniqueIdentifier>{37a5f424-9980-4308-a96f-fbe6365cbe72}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities">
+      <UniqueIdentifier>{92e9d482-80bb-4e42-916c-51616b310441}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities\Types">
+      <UniqueIdentifier>{fd6199c3-8997-41a9-9d46-b6601529c8bf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Utilities\Helpers">
+      <UniqueIdentifier>{ce117528-8f5b-47e1-a904-efdb55bbd733}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Graphics\Objects">
+      <UniqueIdentifier>{92419f77-d44c-497b-8065-2c075d039f43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Graphics\Formats">
+      <UniqueIdentifier>{e5dfc84d-3426-4d69-a0c3-d1962eb1d8e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Graphics\Render">
+      <UniqueIdentifier>{8e155701-82f6-4705-88cd-63c607866f9d}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utilities\types\general.cpp">
+      <Filter>Utilities\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utilities\helpers\generateuuid.cpp">
+      <Filter>Utilities\Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utilities\crv_helper.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utilities\type.cpp">
+      <Filter>Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\graphics\objects\crv_object.cpp">
+      <Filter>Core\Graphics\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\graphics\objects\crv_commonfigureobject.cpp">
+      <Filter>Core\Graphics\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\graphics\objects\crv_commonlineobject.cpp">
+      <Filter>Core\Graphics\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\graphics\objects\crv_lineobject.cpp">
+      <Filter>Core\Graphics\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\graphics\objects\crv_ovalobject.cpp">
+      <Filter>Core\Graphics\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\graphics\objects\crv_rectangleobject.cpp">
+      <Filter>Core\Graphics\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\graphics\formats\crv_bitmap.cpp">
+      <Filter>Core\Graphics\Formats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\graphics\formats\crv_commonimage.cpp">
+      <Filter>Core\Graphics\Formats</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\graphics\render\crv_brush.cpp">
+      <Filter>Core\Graphics\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\graphics\render\crv_canvas.cpp">
+      <Filter>Core\Graphics\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\graphics\render\crv_painttool.cpp">
+      <Filter>Core\Graphics\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\graphics\render\crv_pen.cpp">
+      <Filter>Core\Graphics\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\utilities\types\crv_color.cpp">
+      <Filter>Utilities\Types</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\logic\crv_project.cpp">
+      <Filter>Core\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\logic\crv_projectload.cpp">
+      <Filter>Core\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\core\logic\crv_projectsave.cpp">
+      <Filter>Core\Logic</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\utilities\type.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utilities\crv_helper.h">
+      <Filter>Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utilities\types\bytes.h">
+      <Filter>Utilities\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ext\RapidXML\rapidxml.hpp">
+      <Filter>Ext\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ext\RapidXML\rapidxml_print.hpp">
+      <Filter>Ext\RapidXML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utilities\types\crv_xmlcommon.h">
+      <Filter>Utilities\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utilities\helpers\generateuuid.h">
+      <Filter>Utilities\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utilities\helpers\time.h">
+      <Filter>Utilities\Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\graphics\objects\crv_object.h">
+      <Filter>Core\Graphics\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\graphics\objects\crv_commonfigureobject.h">
+      <Filter>Core\Graphics\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\graphics\objects\crv_commonlineobject.h">
+      <Filter>Core\Graphics\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\graphics\objects\crv_lineobject.h">
+      <Filter>Core\Graphics\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\graphics\objects\crv_ovalobject.h">
+      <Filter>Core\Graphics\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\graphics\objects\crv_rectangleobject.h">
+      <Filter>Core\Graphics\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\graphics\formats\crv_commonimage.h">
+      <Filter>Core\Graphics\Formats</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\graphics\formats\crv_bitmap.h">
+      <Filter>Core\Graphics\Formats</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\graphics\render\crv_brush.h">
+      <Filter>Core\Graphics\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\graphics\render\crv_canvas.h">
+      <Filter>Core\Graphics\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\graphics\render\crv_painttool.h">
+      <Filter>Core\Graphics\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\graphics\render\crv_pen.h">
+      <Filter>Core\Graphics\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\utilities\types\crv_color.h">
+      <Filter>Utilities\Types</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\logic\crv_project.h">
+      <Filter>Core\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\logic\crv_projectload.h">
+      <Filter>Core\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\core\logic\crv_projectsave.h">
+      <Filter>Core\Logic</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\utilities\types\crv_xmlcommon.inl">
+      <Filter>Utilities\Types</Filter>
+    </None>
+    <None Include="..\core\graphics\render\crv_canvas.inl">
+      <Filter>Core\Graphics\Render</Filter>
+    </None>
+    <None Include="..\core\logic\crv_project.inl">
+      <Filter>Core\Logic</Filter>
+    </None>
+  </ItemGroup>
+</Project>
