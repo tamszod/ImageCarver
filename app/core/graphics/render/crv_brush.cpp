@@ -1,5 +1,3 @@
-#pragma once
-
 #include "crv_brush.h"
 #include "crv_painttool.h"
 

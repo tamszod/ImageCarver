@@ -1,5 +1,3 @@
-#pragma once
-
 #include "type.h"
 
 BoundingBoxF& BoundingBoxF::operator+=(const PointF& delta) {

@@ -1,5 +1,3 @@
-#pragma once
-
 #include "crv_object.h"
 #include "crv_ovalobject.h"
 #include "crv_lineobject.h"

@@ -365,3 +365,9 @@ FodyWeavers.xsd
 # Ignore environment folders
 bin
 build
+
+# For OSX drive support
+._*
+
+# For OSX CLion
+.idea

@@ -1,5 +1,3 @@
-#pragma once
-
 #include "crv_color.h"
 
 
@@ -12,7 +10,7 @@ std::unique_ptr<CRV_Color> CRV_Color::Create(uint8_t red, uint8_t blue, uint8_t 
 	return std::unique_ptr<CRV_Color>(new CRV_RGBAColor(red, blue, green, alpha));
 }
 
-CRV_RGBAColor::CRV_RGBAColor(int red = 0, int green = 0, int blue = 0, int alpha = 255)
+CRV_RGBAColor::CRV_RGBAColor(int red, int green, int blue, int alpha)
 	: CRV_RGBColor(red, green, blue)
 	, _alpha(alpha) {
 }

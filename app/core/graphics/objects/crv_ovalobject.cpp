@@ -1,5 +1,3 @@
-#pragma once
-
 #include "crv_ovalobject.h"
 
 void crv::graphics::OvalObject::OnDraw(CRV_Canvas& canvas) {

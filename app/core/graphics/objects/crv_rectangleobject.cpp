@@ -1,5 +1,3 @@
-#pragma once
-
 #include "crv_rectangleobject.h"
 
 void crv::graphics::RectangleObject::OnDraw(CRV_Canvas& canvas) {

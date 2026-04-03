@@ -1,5 +1,3 @@
-#pragma once
-
 #include "crv_commonlineobject.h"
 
 bool crv::graphics::CommonLineObject::SupportsColor() const {

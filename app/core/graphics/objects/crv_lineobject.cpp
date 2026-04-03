@@ -1,5 +1,3 @@
-#pragma once
-
 #include "crv_lineobject.h"
 
 #include "../render/crv_canvas.h"

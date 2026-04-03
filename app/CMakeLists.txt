@@ -6,6 +6,9 @@ file(GLOB_RECURSE APP_SOURCES CONFIGURE_DEPENDS
     ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp
 )
 
+# REMOVE macOS metadata files
+list(FILTER APP_SOURCES EXCLUDE REGEX "/\\._")
+
 # 2. Collect parent ext (header-only)
 file(GLOB_RECURSE EXT_SOURCES CONFIGURE_DEPENDS
     ${CMAKE_SOURCE_DIR}/ext/*.h

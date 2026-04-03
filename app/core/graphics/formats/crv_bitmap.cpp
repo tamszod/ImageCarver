@@ -1,5 +1,3 @@
-#pragma once
-
 #include "crv_bitmap.h"
 
 #include <cmath>

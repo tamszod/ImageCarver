@@ -1,5 +1,3 @@
-#pragma once
-
 #include "crv_projectload.h"
 #include "../graphics/objects/crv_object.h"
 #include "../graphics/objects/crv_lineobject.h"

@@ -1,5 +1,3 @@
-#pragma once
-
 #include "crv_project.h"
 #include "crv_projectload.h"
 #include "crv_projectsave.h"
@@ -17,7 +15,7 @@ std::unique_ptr<CRV_Project> CRV_Project::Create(const std::string& filePath) {
 }
 
 std::unique_ptr<CRV_Project> CRV_Project::Create(const std::wstring& filePath) { // fails
-	std::ifstream file(filePath, std::ios::binary);
+	std::ifstream file(std::filesystem::path(filePath), std::ios::binary);
 	if (!file) {
 		return nullptr;
 	}

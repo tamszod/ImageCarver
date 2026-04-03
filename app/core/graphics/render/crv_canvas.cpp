@@ -1,5 +1,3 @@
-#pragma once
-
 #include "crv_canvas.h"
 #include "../../../utils/types/crv_color.h"
 

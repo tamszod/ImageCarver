@@ -1,5 +1,3 @@
-#pragma once
-
 #include "crv_commonfigureobject.h"
 
 bool crv::graphics::CommonFigureObject::SupportsFillColor() const {

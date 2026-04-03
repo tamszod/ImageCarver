@@ -1,5 +1,3 @@
-#pragma once
-
 #include "crv_commonimage.h"
 
 bool crv::graphics::CommonImage::IsBitmap() const {

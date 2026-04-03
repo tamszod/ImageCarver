@@ -1,5 +1,3 @@
-#pragma once
-
 #include "crv_projectsave.h"
 
 #include "RapidXML/rapidxml_print.hpp"

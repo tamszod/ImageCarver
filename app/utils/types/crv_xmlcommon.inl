@@ -4,7 +4,7 @@ template<typename Ch>
 void CRV_XMLCommon<Ch>::Parse(crv::type::ByteStream& stream) {
     _chstream = std::vector<Ch>(stream.begin(), stream.end());
     _chstream.push_back('\0');
-    _xmlDocument->parse<0>(_chstream.data());
+    _xmlDocument->template parse<0>(_chstream.data());
 }
 
 template<typename Ch>

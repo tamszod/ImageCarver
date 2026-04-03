@@ -1,5 +1,3 @@
-#pragma once
-
 template<CommonImageType T>
 std::unique_ptr<T> CRV_Project::DoPaint(std::unique_ptr<T> commonImage) const {
 	if (!commonImage) {
