@@ -1,15 +1,13 @@
 #pragma once
 
-#include "../formats/crv_commonimage.h"
-#include "../formats/crv_bitmap.h"
+#include "core/graphics/formats/crv_commonimage.h"
+#include "core/graphics/formats/crv_bitmap.h"
 #include "crv_pen.h"
 #include "crv_brush.h"
-#include "../../../utils/type.h"
+#include "utils/type.h"
 
 #include <memory>
 
-/* @
- */
 class CRV_Canvas final {
 public:
 	// Environment management
@@ -44,12 +42,6 @@ public:
 	 * @return The previously selected brush, or nullptr if there was none.
 	 */
 	std::unique_ptr<CRV_Brush> SelectBrush(std::unique_ptr<CRV_Brush> brush);
-
-	CRV_Canvas() = default;
-
-	CRV_Canvas(std::unique_ptr<crv::graphics::CommonImage> target, std::unique_ptr<CRV_Pen> pen = nullptr, std::unique_ptr<CRV_Brush> brush = nullptr);
-
-	~CRV_Canvas() = default;
 
 	// Drawing operations
 
@@ -89,10 +81,23 @@ public:
 	void FillOval(const crv::type::Rectangle& rect);
 	void FillOval(const BoundingBoxF& rect);
 
+
+	CRV_Canvas() = default;
+	explicit CRV_Canvas(std::unique_ptr<crv::graphics::CommonImage> target, std::unique_ptr<CRV_Pen> pen = nullptr, std::unique_ptr<CRV_Brush> brush = nullptr);
+	~CRV_Canvas() = default;
 private:
-	std::unique_ptr<crv::graphics::CommonImage> _target{}; // Can be nullpt when no object is attached
-	std::unique_ptr<CRV_Pen> _pen = nullptr;
-	std::unique_ptr<CRV_Brush> _brush = nullptr;
+
+	const CRV_Color& GetSelectedColor();
+	const CRV_Color& GetSelectedBackgroundColor();
+	template<class T = int>
+	T GetSelectedWidth();
+
+	std::unique_ptr<crv::graphics::CommonImage> target_{}; // Can be nullptr when no object is attached
+	std::unique_ptr<CRV_Pen> pen_{}; // Can be null pen
+	std::unique_ptr<CRV_Brush> brush_{}; // Can be null brush
+
+	std::unique_ptr<CRV_Color> fallbackColor_{};
+	std::unique_ptr<CRV_Color> fallbackBackgroundColor_{};
 
 	PointF _currentPosition{ 0, 0 };
 };

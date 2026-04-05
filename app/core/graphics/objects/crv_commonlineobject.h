@@ -2,24 +2,24 @@
 
 #include "crv_object.h"
 
-namespace crv {
-	namespace graphics {
-		class CommonLineObject : public Object {
-		public:
-			virtual bool SupportsColor() const override;
-			virtual const std::shared_ptr<CRV_Color> GetColor() const override;
-			virtual void SetColor(std::unique_ptr<CRV_Color> color) override;
-			virtual bool SupportsLineWidth() const override;
-			virtual int GetLineWidth() const override;
-			virtual void SetLineWidth(int width) override;
+namespace crv::graphics {
+	class CommonLineObject : public Object {
+	public:
+		bool SupportsColor() const override;
+		const std::shared_ptr<CRV_Color> GetColor() const override;
+		void SetColor(std::unique_ptr<CRV_Color> color) override;
 
-			bool IsCommonLine() const override;
+		bool SupportsLineWidth() const override;
+		int GetLineWidth() const override;
+		void SetLineWidth(int width) override;
 
-			CommonLineObject() = default;
-			~CommonLineObject() = default;
-		private:
-			int _width = 1;
-			std::shared_ptr<CRV_Color> _color = CRV_Color::Create(0, 0, 0);
-		};
-	}
+		bool IsCommonLine() const override;
+
+	protected:
+		explicit CommonLineObject() = default;
+		~CommonLineObject() override = default;
+	private:
+		int width_ = 1;
+		std::shared_ptr<CRV_Color> color_ = CRV_Color::Create(0, 0, 0);
+	};
 }

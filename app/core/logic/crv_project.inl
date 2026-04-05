@@ -4,7 +4,7 @@ std::unique_ptr<T> CRV_Project::DoPaint(std::unique_ptr<T> commonImage) const {
 		return nullptr;
 	}
 	CRV_Canvas canvas{ std::move(commonImage) };
-	for (const auto& object : _objects) {
+	for (const auto& object : objects_) {
 		if (object) {
 			object->OnDraw(canvas);
 		}

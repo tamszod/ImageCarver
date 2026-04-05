@@ -2,11 +2,13 @@
 
 #include "RapidXML/rapidxml_print.hpp"
 #include "../graphics/objects/crv_lineobject.h"
-#include "../../utils/helpers/time.h"
+#include "utils/helpers/time.h"
+#include "utils/helpers/crv_xmltag.h"
+#include "crv_versioninfo.h"
 
 CRV_ProjectSave::CRV_ProjectSave(const CRV_Project& project) 
 	: CRV_XMLCommon()
-    , _project(project) {
+    , project_(project) {
 
 }
 
@@ -19,14 +21,14 @@ crv::type::ByteStream CRV_ProjectSave::Save() {
     decl->append_attribute(_xmlDocument->allocate_attribute("encoding", "UTF-8"));
     _xmlDocument->append_node(decl);
 
-	// Root node
-    auto* projectNode = _xmlDocument->allocate_node(rapidxml::node_type::node_element, "project");
+	// Root project node
+    auto* projectNode = CreateNodeElement(crv::xmltag::PROJECT);
     _xmlDocument->append_node(projectNode);
 
 	// Root children
-    projectNode->append_node(_CreateHeaderNode());
-    projectNode->append_node(_CreateViewNode());
-    projectNode->append_node(_CreateAnnotationsNode());
+    projectNode->append_node(CreateHeaderNode());
+    projectNode->append_node(CreateViewNode());
+    projectNode->append_node(CreateGraphicalObjectsNode());
 
 	// Convert XML document to byte stream
     crv::type::ByteStream buffer;
@@ -35,98 +37,99 @@ crv::type::ByteStream CRV_ProjectSave::Save() {
     return buffer;
 }
 
-rapidxml::xml_node<char>* CRV_ProjectSave::_CreateHeaderNode() {
+rapidxml::xml_node<char>* CRV_ProjectSave::CreateHeaderNode() {
     // <header>
-	auto* header = CreateNodeElement("header");
+	auto* header = CreateNodeElement(crv::xmltag::HEADER);
     // <crv version="1.0"/>
-	auto* crv = CreateNodeElement("crv");
-	AppendAttribute(crv, "version", "1.0");
+	auto* crv = CreateNodeElement(crv::xmltag::INSTANCE_VERSION);
+	AppendAttribute(crv, crv::xmltag::VERSION, crv::versioninfo::INSTANCE);
     header->append_node(crv);
 
     // <project version="1.0"/>
-	auto* project = CreateNodeElement("project");
-	AppendAttribute(project, "version", "1.0");
+	auto* project = CreateNodeElement(crv::xmltag::FILE_VERSION);
+	AppendAttribute(project, crv::xmltag::VERSION, crv::versioninfo::CRV_FORMAT);
     header->append_node(project);
 
     // <creation_date>24.02.2026</creation_date>
     auto* creation = CreateNodeElement(
-        "creation_date",
-        _project.GetCreationDate().c_str()
+            crv::xmltag::CREATION_DATE,
+            project_.GetCreationDate().c_str()
 	);
     header->append_node(creation);
 
     // <modification_date>29.03.2026</modification_date>
     auto* modification = CreateNodeElement(
-        "modification_date",
+            crv::xmltag::MODIFICATION_DATE,
         crv::helper::GetQuickTime().c_str()
     );
     header->append_node(modification);
     return header;
 }
 
-rapidxml::xml_node<char>* CRV_ProjectSave::_CreateViewNode() {
+rapidxml::xml_node<char>* CRV_ProjectSave::CreateViewNode() {
     // <view>
-    auto* view = CreateNodeElement("view");
+    auto* view = CreateNodeElement(crv::xmltag::VIEW);
 
     // <size width="..." height="..."/>
-    auto* size = CreateNodeElement("size");
-	AppendAttribute(size, "width", _project.GetWidth());
-	AppendAttribute(size, "height", _project.GetHeight());
+    auto* size = CreateNodeElement(crv::xmltag::SIZE);
+	AppendAttribute(size, crv::xmltag::WIDTH, project_.GetWidth());
+	AppendAttribute(size, crv::xmltag::HEIGHT, project_.GetHeight());
 
     view->append_node(size);
 
     return view;
 }
 
-rapidxml::xml_node<char>* CRV_ProjectSave::_CreateAnnotationsNode() {
-    // <annotations>
-	auto* annotations = CreateNodeElement("annotations");
+rapidxml::xml_node<char>* CRV_ProjectSave::CreateGraphicalObjectsNode() {
+    // <graphical_objects>
+	auto* graphicalObjects = CreateNodeElement(crv::xmltag::GRAPHICAL_OBJECTS);
 
-    for (size_t i = 0; i < _project.GetObjectCount(); i++) {
-        const auto& annotation = _project.GetObject(i);
-        annotations->append_node(_CreateAnnotationNode(annotation));
+    for (size_t i = 0; i < project_.GetObjectCount(); i++) {
+        auto graphicalObject = project_.GetObject(i);
+        graphicalObjects->append_node(CreateGraphicalObjectNode(graphicalObject));
 	}
-    return annotations;
+
+    return graphicalObjects;
 }
 
-rapidxml::xml_node<char>* CRV_ProjectSave::_CreateAnnotationNode(const std::shared_ptr<crv::graphics::Object>& annotation) {
-    // <annotation id="1">
-	auto* annotationNode = CreateNodeElement(annotation->GetTypeName());
-	AppendAttribute(annotationNode, "id", annotation->GetObjNum());
+rapidxml::xml_node<char>* CRV_ProjectSave::CreateGraphicalObjectNode(std::shared_ptr<const crv::graphics::Object>& object) {
+    // <graphical_object id="1">
+	auto* graphicalObjectNode = CreateNodeElement(object->GetTypeName());
+	AppendAttribute(graphicalObjectNode, crv::xmltag::ID, object->GetObjNum());
 
 	// <bbox .../> or <points .../>
-    if (annotation->IsLine()) {
-        auto lineCount = annotation->AsLine()->GetPointCount();
+    if (object->IsLine()) {
+        auto lineCount = object->AsLine()->GetPointCount();
         std::vector<PointF> linePoints;
         linePoints.reserve(lineCount);
 		for (size_t i = 0; i < lineCount; i++) {
-            linePoints.emplace_back(std::move(annotation->AsLine()->GetPoint(i)));
+            linePoints.emplace_back(object->AsLine()->GetPoint(i));
         }
-        auto* points = CreateNodeElement("points", "point", linePoints);
-        annotationNode->append_node(points);
+        auto* points = CreateNodeElement(crv::xmltag::POINTS, crv::xmltag::POINT, linePoints);
+        graphicalObjectNode->append_node(points);
     }
     else {
-        auto* bbox = CreateNodeElement("bbox", annotation->GetBBox());
-        annotationNode->append_node(bbox);
+        auto* bbox = CreateNodeElement(crv::xmltag::BBOX, object->GetBBox());
+        graphicalObjectNode->append_node(bbox);
     }
 
     //// <color .../>
-    if (annotation->SupportsColor()) {
-		auto* color = CreateNodeElement("color", *annotation->GetColor());
-        annotationNode->append_node(color);
+    if (object->SupportsColor()) {
+		auto* color = CreateNodeElement(crv::xmltag::COLOR, *object->GetColor());
+        graphicalObjectNode->append_node(color);
     }
 
     //// <fill_color .../>
-    if (annotation->SupportsFillColor()) {
-        auto* fillColor = CreateNodeElement("fill_color", *annotation->GetFillColor());
-        annotationNode->append_node(fillColor);
+    if (object->SupportsFillColor()) {
+        auto* fillColor = CreateNodeElement(crv::xmltag::FILL_COLOR, *object->GetFillColor());
+        graphicalObjectNode->append_node(fillColor);
     }
 
     //// <line_width .../>
-    if (annotation->SupportsLineWidth()) {
-		auto* lineWidth = CreateNodeElement("line_width", annotation->GetLineWidth());
-        annotationNode->append_node(lineWidth);
+    if (object->SupportsLineWidth()) {
+		auto* lineWidth = CreateNodeElement(crv::xmltag::LINE_WIDTH, object->GetLineWidth());
+        graphicalObjectNode->append_node(lineWidth);
     }
 
-	return annotationNode;
+	return graphicalObjectNode;
 }

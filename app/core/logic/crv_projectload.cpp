@@ -1,15 +1,17 @@
 #include "crv_projectload.h"
 #include "../graphics/objects/crv_object.h"
 #include "../graphics/objects/crv_lineobject.h"
+#include "utils/helpers/crv_xmltag.h"
 
 CRV_ProjectLoad::CRV_ProjectLoad(crv::type::ByteStream& stream)
     : CRV_XMLCommon()
     , _stream(stream) {
-    Parse(_stream);
+    Parse(_stream);  // TODO: Maybe try to use one final stream of the file.
 };
 
 std::unique_ptr<CRV_Project> CRV_ProjectLoad::Load() {
-    auto* root = FindRootNodeElement("project");
+    auto* root = FindRootNodeElement(crv::xmltag::PROJECT);
+
     if (!root) {
         return nullptr;
     }
@@ -20,68 +22,69 @@ std::unique_ptr<CRV_Project> CRV_ProjectLoad::Load() {
 		return nullptr;
     }
 
-    // Parse sections
-    if (auto* header = FindNodeElement(root, "header")) {
-        _ParseHeader(header);
+    // Parse header tag
+    if (auto* header = FindNodeElement(root, crv::xmltag::HEADER)) {
+        ParseHeader(header);
     }
 
-    if (auto* view = FindNodeElement(root, "view")) {
-        _ParseView(view);
+    // Parse view tag
+    if (auto* view = FindNodeElement(root, crv::xmltag::VIEW)) {
+        ParseView(view);
     }
 
-    if (auto* annotations = FindNodeElement(root, "annotations")) {
-        _ParseGraphicObjects(annotations);
+    // Parse graphical objects
+    if (auto* graphicalObjects = FindNodeElement(root, crv::xmltag::GRAPHICAL_OBJECTS)) {
+        ParseGraphicalObjects(graphicalObjects);
     }
 
     return std::move(_project);
 }
 
-void CRV_ProjectLoad::_ParseHeader(rapidxml::xml_node<char>* headerNode) {
-    if (auto creation = FindNodeElementValue(headerNode, "creation_date")) {
+void CRV_ProjectLoad::ParseHeader(rapidxml::xml_node<char>* headerNode) {
+    if (auto creation = FindNodeElementValue(headerNode, crv::xmltag::CREATION_DATE)) {
         _project->SetCreationDate(*creation);
     }
-    if (auto modification = FindNodeElementValue(headerNode, "modification_date")) {
+    if (auto modification = FindNodeElementValue(headerNode, crv::xmltag::MODIFICATION_DATE)) {
         _project->SetModificationDate(*modification);
     }
 }
 
-void CRV_ProjectLoad::_ParseView(rapidxml::xml_node<char>* viewNode) {
-    if (auto* size = FindNodeElement(viewNode, "size")) {
-        if (auto width = FindAttributeIntValue(viewNode, "width")) {
+void CRV_ProjectLoad::ParseView(rapidxml::xml_node<char>* viewNode) {
+    if (auto* size = FindNodeElement(viewNode, crv::xmltag::SIZE)) {
+        if (auto width = FindAttributeIntValue(viewNode, crv::xmltag::WIDTH)) {
             _project->SetWidth(*width);
         }
-        if (auto height = FindAttributeIntValue(viewNode, "height")) {
+        if (auto height = FindAttributeIntValue(viewNode, crv::xmltag::HEIGHT)) {
             _project->SetHeight(*height);
         }
     }
 }
 
-void CRV_ProjectLoad::_ParseGraphicObjects(rapidxml::xml_node<char>* annotationsNode) {
-    for (auto* node = annotationsNode->first_node(); node; node = node->next_sibling()) {
-        auto annotation = _ParseGraphicObject(node);
-        if (annotation) {
-            _project->AddGraphicObject(std::move(annotation));
+void CRV_ProjectLoad::ParseGraphicalObjects(rapidxml::xml_node<char>* graphicalObjectsNode) {
+    for (auto* graphicalObjectNode = graphicalObjectsNode->first_node(); graphicalObjectNode; graphicalObjectNode = graphicalObjectNode->next_sibling()) {
+        auto graphicalObject = ParseGraphicalObject(graphicalObjectNode);
+        if (graphicalObject) {
+            _project->AddGraphicalObject(std::move(graphicalObject));
         }
     }
 }
 
-std::unique_ptr<crv::graphics::Object> CRV_ProjectLoad::_ParseGraphicObject(rapidxml::xml_node<char>* node) {
-    // <annotation id="1">
-    std::string type = node->name();
+std::unique_ptr<crv::graphics::Object> CRV_ProjectLoad::ParseGraphicalObject(rapidxml::xml_node<char>* node) {
+    // <graphical_object id="1">
+	std::unique_ptr<crv::graphics::Object> graphicalObject = crv::graphics::Object::Create(node->name());
 
-	std::unique_ptr<crv::graphics::Object> gobject = crv::graphics::Object::Create(type.c_str());
-    if (!gobject) {
+    if (!graphicalObject) {
         return nullptr;
 	}
 
-    if (auto objNum = FindAttributeUINT32TValue(node, "id")) {
-        gobject->SetOjbNum(*objNum);
+    if (auto objNum = FindAttributeUINT32TValue(node, crv::xmltag::ID)) {
+        graphicalObject->SetOjbNum(*objNum);
     }
 
     // <bbox .../> or <points .../>
-    if (gobject->IsLine()) {
-        if (auto line = gobject->AsMutableLine()) {
-            if (auto points = FindNodeElementPointFListValue(node, "points", "point")) {
+    if (graphicalObject->IsLine()) {
+        if (auto line = graphicalObject->AsMutableLine()) {
+            if (auto points = FindNodeElementPointFListValue(node, crv::xmltag::POINTS, crv::xmltag::POINT)) {
                 for (size_t i = 0; i < (*points).size(); ++i) {
                     line->SetPoint(0, (*points)[i]);
                 }
@@ -89,31 +92,31 @@ std::unique_ptr<crv::graphics::Object> CRV_ProjectLoad::_ParseGraphicObject(rapi
         }
     }
     else {
-		if (auto bbox = FindNodeElementBoundingBoxFValue(node, "bbox")) {
-            gobject->SetBBox(*bbox);
+		if (auto bbox = FindNodeElementBoundingBoxFValue(node, crv::xmltag::BBOX)) {
+            graphicalObject->SetBBox(*bbox);
         }
     }
 
     //// <color .../>
-    if (gobject->SupportsColor()) {
-        if (auto color = FindNodeElementCRVColorValue(node, "color")) {
-            gobject->SetColor(std::move(*color));
+    if (graphicalObject->SupportsColor()) {
+        if (auto color = FindNodeElementCRVColorValue(node, crv::xmltag::COLOR)) {
+            graphicalObject->SetColor(std::move(*color));
 		}
     }
 
     //// <fill_color .../>
-    if (gobject->SupportsFillColor()) {
-		if (auto fillColor = FindNodeElementCRVColorValue(node, "fill_color")) {
-            gobject->SetFillColor(std::move(*fillColor));
+    if (graphicalObject->SupportsFillColor()) {
+		if (auto fillColor = FindNodeElementCRVColorValue(node, crv::xmltag::FILL_COLOR)) {
+            graphicalObject->SetFillColor(std::move(*fillColor));
         }
     }
 
     //// <line_width .../>
-    if (gobject->SupportsLineWidth()) {
-        if (auto lineWidth = FindNodeElementIntValue(node, "line_width")) {
-            gobject->SetLineWidth(*lineWidth);
+    if (graphicalObject->SupportsLineWidth()) {
+        if (auto lineWidth = FindNodeElementIntValue(node, crv::xmltag::LINE_WIDTH)) {
+            graphicalObject->SetLineWidth(*lineWidth);
         }
     }
 
-    return gobject;
+    return graphicalObject;
 }

@@ -20,6 +20,8 @@ file(GLOB_RECURSE EXT_SOURCES CONFIGURE_DEPENDS
 add_executable(ImageCarver 
     ${APP_SOURCES}
     ${EXT_SOURCES}
+        utils/helpers/crv_xmltag.h
+        crv_versioninfo.h
 )
 
 # 4. Apply filters for app

@@ -5,11 +5,11 @@ bool crv::graphics::CommonLineObject::SupportsColor() const {
 }
 
 const std::shared_ptr<CRV_Color> crv::graphics::CommonLineObject::GetColor() const {
-	return _color;
+	return color_;
 }
 
 void crv::graphics::CommonLineObject::SetColor(std::unique_ptr<CRV_Color> color) {
-	_color = std::move(color);
+	color_ = std::move(color);
 }
 
 bool crv::graphics::CommonLineObject::SupportsLineWidth() const {
@@ -17,15 +17,15 @@ bool crv::graphics::CommonLineObject::SupportsLineWidth() const {
 }
 
 int crv::graphics::CommonLineObject::GetLineWidth() const  {
-	return _width;
+	return width_;
 }
 
 void crv::graphics::CommonLineObject::SetLineWidth(int width) {
 	if (width < 1) {
-		_width = 1;
+		width_ = 1;
 	}
 	else {
-		_width = width;
+		width_ = width;
 	}
 }
 

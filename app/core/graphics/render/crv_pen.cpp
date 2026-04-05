@@ -10,10 +10,7 @@ std::unique_ptr<CRV_Pen> CRV_Pen::Create(const std::shared_ptr<CRV_Color>& color
 }
 
 int CRV_Pen::GetWidth() const {
-	if (!this) {
-		return 1;
-	}
-	return _width; 
+	return width_;
 }
 
 CRV_Pen::CRV_Pen(std::unique_ptr<CRV_Color> color, int width)
@@ -28,9 +25,9 @@ CRV_Pen::CRV_Pen(const std::shared_ptr<CRV_Color>& color, int width)
 
 void CRV_Pen::_SetWidth(int width) {
 	if (width < 1) {
-		_width = 1;
+		width_ = 1;
 	}
 	else {
-		_width = width;
+		width_ = width;
 	}
 }

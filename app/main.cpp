@@ -32,9 +32,9 @@ int main() {
 
 	// Create project and add objects
 	auto project = CRV_Project::Create();
-	project->AddGraphicObject(std::move(line));
-	project->AddGraphicObject(std::move(rectangle));
-	project->AddGraphicObject(std::move(oval));
+	project->AddGraphicalObject(std::move(line));
+	project->AddGraphicalObject(std::move(rectangle));
+	project->AddGraphicalObject(std::move(oval));
 
 	// Paint project to bitmap and save as BMP file
 	std::unique_ptr<CRV_Bitmap> bitmap = CRV_Bitmap::Create(project->GetWidth(), project->GetHeight(), CRV_Bitmap::ColorMode::RGB);

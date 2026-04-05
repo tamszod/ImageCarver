@@ -14,5 +14,5 @@ protected:
 
 	void _SetWidth(int width);
 
-	int _width = 1;
+	int width_ = 1;
 };

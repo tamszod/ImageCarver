@@ -1,9 +1,9 @@
 #pragma once
 
-#include "../../utils/types/bytes.h"
-#include "../graphics/formats/crv_commonimage.h"
-#include "../graphics/formats/crv_bitmap.h"
-#include "../graphics/objects/crv_object.h"
+#include "utils/types/bytes.h"
+#include "core/graphics/formats/crv_commonimage.h"
+#include "core/graphics/formats/crv_bitmap.h"
+#include "core/graphics/objects/crv_object.h"
 
 #include <memory>
 #include <string>
@@ -46,7 +46,7 @@ public:
 	 *
 	 * @return A byte stream containing the saved project data.
 	 */
-	crv::type::ByteStream DoSaveCopy() const;
+    [[nodiscard]] crv::type::ByteStream DoSaveCopy() const;
 
 	/* @brief Paints the project onto the given common image and returns the painted image.
 	 *
@@ -63,7 +63,7 @@ public:
 	 *
 	 * @return The width of the project canvas in pixels.
 	 */
-	int GetWidth() const;
+    [[nodiscard]] int GetWidth() const;
 
 	/* @brief Sets the width of the project canvas.
 	 *
@@ -75,7 +75,7 @@ public:
 	 *
 	 * @return The height of the project canvas in pixels.
 	 */
-	int GetHeight() const;
+    [[nodiscard]] int GetHeight() const;
 
 	/* @brief Sets the height of the project canvas.
 	 *
@@ -85,31 +85,31 @@ public:
 
 	/* @brief Adds a graphic object to the project.
 	 *
-	 * @param annotation The graphic object to add. Must not be nullptr.
+	 * @param object The graphic object to add. Must not be nullptr.
 	 */
-	void AddGraphicObject(std::unique_ptr<crv::graphics::Object> annotation);
+	void AddGraphicalObject(std::unique_ptr<crv::graphics::Object> object);
 
 	/* @brief Gets the number of graphic objects in the project.
 	 *
 	 * @return The number of graphic objects in the project.
 	 */
-	size_t GetObjectCount() const;
+    [[nodiscard]] size_t GetObjectCount() const;
 
-	/* @brief Gets the graphic object at the specified index.
+	/* @brief Retrieves the graphical object at the specified index.
 	 *
 	 * @param index The index of the graphic object to retrieve. Must be less than GetObjectCount().
 	 *
 	 * @return A shared pointer to the graphic object at the specified index, or nullptr if the index is out of range.
 	 */
-	const std::shared_ptr<crv::graphics::Object> GetObject(size_t index) const;
+    [[nodiscard]] std::shared_ptr<const crv::graphics::Object> GetObject(size_t index) const;
 
-	/* @brief Gets a mutable reference to the graphic object at the specified index.
+	/* @brief Retrieves a mutable reference to the graphic object at the specified index.
 	 *
 	 * @param index The index of the graphic object to retrieve. Must be less than GetObjectCount().
 	 *
 	 * @return A shared pointer to the graphic object at the specified index, or nullptr if the index is out of range.
 	 */
-	std::shared_ptr<crv::graphics::Object> GetMutableObject(size_t index);
+    [[nodiscard]] std::shared_ptr<crv::graphics::Object> GetMutableObject(size_t index);
 
 	/* @brief Removes the graphic object at the specified index.
 	 *
@@ -121,7 +121,7 @@ public:
 	 *
 	 * @return The creation date of the project as a string.
 	 */
-	std::string GetCreationDate() const;
+    [[nodiscard]] std::string GetCreationDate() const;
 
 	/* @brief Sets the creation date of the project.
 	 *
@@ -133,7 +133,7 @@ public:
 	 *
 	 * @return The modification date of the project as a string.
 	 */
-	std::string GetModificationDate() const;
+    [[nodiscard]] std::string GetModificationDate() const;
 
 	/* @brief Sets the modification date of the project.
 	 * 
@@ -144,12 +144,12 @@ public:
 protected:
 	CRV_Project() = default;
 private:
-	int _width = 2481;
-	int _height = 3507;
-	std::vector<std::shared_ptr<crv::graphics::Object>> _objects{};
-	std::string _creationDate{};
-	std::string _modificationDate{};
-	uint32_t _nextObjNum = 0;
+	int width_ = 2481;
+	int height_ = 3507;
+	std::vector<std::shared_ptr<crv::graphics::Object>> objects_{};
+	std::string creationDate_{};
+	std::string modificationDate_{};
+	uint32_t nextObjNum_ = 0;
 };
 
 #include "crv_project.inl"

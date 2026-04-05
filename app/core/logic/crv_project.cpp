@@ -14,7 +14,9 @@ std::unique_ptr<CRV_Project> CRV_Project::Create(const std::string& filePath) {
 	return Create(std::filesystem::path(filePath).wstring());
 }
 
-std::unique_ptr<CRV_Project> CRV_Project::Create(const std::wstring& filePath) { // fails
+std::unique_ptr<CRV_Project> CRV_Project::Create(const std::wstring& filePath) {
+	// TODO: Simplify file read
+
 	std::ifstream file(std::filesystem::path(filePath), std::ios::binary);
 	if (!file) {
 		return nullptr;
@@ -24,7 +26,7 @@ std::unique_ptr<CRV_Project> CRV_Project::Create(const std::wstring& filePath) {
 	file.seekg(0, std::ios::end);
 	std::streamsize size = file.tellg();
 
-	// Move back to beginning
+	// Move back to the beginning
 	file.seekg(0, std::ios::beg);
 
 	if (size <= 0) {
@@ -51,74 +53,76 @@ crv::type::ByteStream CRV_Project::DoSaveCopy() const {
 }
 
 int CRV_Project::GetWidth() const {
-	return _width;
+	return width_;
 }
 
 void CRV_Project::SetWidth(int width) {
-	_width = width;
+    width_ = width;
 }
 
 int CRV_Project::GetHeight() const {
-	return _height;
+	return height_;
 }
 
 void CRV_Project::SetHeight(int height) {
-	_height = height;
+	height_ = height;
 }
 
-void CRV_Project::AddGraphicObject(std::unique_ptr<crv::graphics::Object> annotation) {
-	if (!annotation) {
+void CRV_Project::AddGraphicalObject(std::unique_ptr<crv::graphics::Object> object) {
+	if (!object) {
 		return;
 	}
-	if (!annotation->GetObjNum()) {
-		annotation->SetOjbNum(++_nextObjNum);
+
+	if (!object->GetObjNum()) {
+		object->SetOjbNum(++nextObjNum_);
 	}
-	_objects.emplace_back(std::move(annotation));
+
+	objects_.emplace_back(std::move(object));
 }
 
 size_t CRV_Project::GetObjectCount() const {
-	return _objects.size();
+	return objects_.size();
 }
 
-const std::shared_ptr<crv::graphics::Object> CRV_Project::GetObject(size_t index) const {
-	if (index >= _objects.size()) {
+std::shared_ptr<const crv::graphics::Object> CRV_Project::GetObject(size_t index) const {
+	if (index >= objects_.size()) {
 		return nullptr;
 	}
-	return _objects[index];
+	return objects_[index];
 }
 
 std::shared_ptr<crv::graphics::Object> CRV_Project::GetMutableObject(size_t index) {
-	if (index >= _objects.size()) {
+	if (index >= objects_.size()) {
 		return nullptr;
 	}
-	return _objects[index];
+	return objects_[index];
 }
 
 void CRV_Project::RemoveObjectAtIndex(size_t index) {
-	if (index >= _objects.size()) {
+	if (index >= objects_.size()) {
 		return;
 	}
-	_objects.erase(_objects.begin() + index);
+	objects_.erase(objects_.begin() + index);
 }
 
 std::string CRV_Project::GetCreationDate() const {
-	if (_creationDate.empty()) {
+	if (creationDate_.empty()) {
 		return crv::helper::GetQuickTime();
 	}
-	return _creationDate;
+	return creationDate_;
 }
 
 void CRV_Project::SetCreationDate(const std::string& creationDate) {
-	_creationDate = creationDate;
+	creationDate_ = creationDate;
 }
 
 std::string CRV_Project::GetModificationDate() const {
-	if (_modificationDate.empty()) {
+	if (modificationDate_.empty()) {
 		return crv::helper::GetQuickTime();
 	}
-	return _modificationDate;
+	return modificationDate_;
 }
 
 void CRV_Project::SetModificationDate(const std::string& modificationDate) {
-	_modificationDate = modificationDate;
+	modificationDate_ = modificationDate;
 }

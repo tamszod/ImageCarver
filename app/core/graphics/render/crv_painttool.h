@@ -6,10 +6,7 @@
 
 class CRV_PaintTool {
 public:
-	const CRV_Color& GetColor() const { 
-		if (!this) {
-			return _GetDefaultColor(); // Allow null pen?
-		}
+	const CRV_Color& GetColor() const {
 		return *_color; 
 	}
 protected:
@@ -20,8 +17,4 @@ protected:
 		: _color(color) {
 	}
 	const std::shared_ptr<CRV_Color> _color{};
-private:
-
-	const CRV_Color& _GetDefaultColor() const;
-	static std::unique_ptr<CRV_Color> gDefaultColor;
 };
