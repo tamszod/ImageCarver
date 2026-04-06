@@ -1,6 +1,7 @@
 #pragma once
 
-#include "utils/type.h"
+#include "utils/types/crv_point.h"
+#include "utils/types/crv_rectangle.h"
 #include "core/graphics/render/crv_canvas.h"
 
 #include <string>
@@ -32,10 +33,10 @@ namespace crv::graphics {
 		};
 
 		// Move object bounding box
-		virtual bool OnMove(PointF offset);
+		virtual bool OnMove(CRV_PointF offset);
 
 		// Resize object bounding box
-		virtual bool OnResize(ResizePoint resizeStart, PointF offset);
+		virtual bool OnResize(ResizePoint resizeStart, CRV_PointF offset);
 
 		// Rotate object bounding box
 		virtual bool OnRotate(float rotateBy);
@@ -47,8 +48,8 @@ namespace crv::graphics {
 		//** Properties **//
 
 		// Bounding box
-		virtual const BoundingBoxF& GetBBox() const;
-		virtual void SetBBox(const BoundingBoxF &boundingBox);
+		virtual const CRV_RectangleF& GetBBox() const;
+		virtual void SetBBox(const CRV_RectangleF &boundingBox);
 		float GetWidth() const;
 		float GetHeight() const;
 
@@ -98,7 +99,7 @@ namespace crv::graphics {
 	protected:
 		explicit Object() = default;
 
-		BoundingBoxF boundingBox_{};
+		CRV_RectangleF boundingBox_{};
 		float rotationDegree_ = 0.f;
 
 	private:

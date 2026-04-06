@@ -3,6 +3,7 @@
 #include "crv_commonimage.h"
 
 #include <vector>
+
 namespace crv::graphics {
 	class Bitmap : public CommonImage {
 	public:
@@ -37,19 +38,19 @@ namespace crv::graphics {
 		void AddLine(int x0, int y0, int x1, int y1, const CRV_Color &color, int width) override;
 		void AddLine(float x0, float y0, float x1, float y1, const CRV_Color &color, float width) override;
 
-		void FillRectangle(const crv::type::Rectangle &rect, const CRV_Color &backgroundColor) override;
-		void FillRectangle(const BoundingBoxF &rect, const CRV_Color &backgroundColor) override;
-		void AddRectangle(const crv::type::Rectangle &rect, const CRV_Color &color, int width) override;
-		void AddRectangle(const BoundingBoxF &rect, const CRV_Color &color, float width ) override;
-		void AddRectangle(const crv::type::Rectangle &rect, const CRV_Color &color, int width, const CRV_Color &backgroundColor) override;
-		void AddRectangle(const BoundingBoxF &rect, const CRV_Color &color, float width, const CRV_Color &backgroundColor) override;
+		void FillRectangle(const CRV_Rectangle &rect, const CRV_Color &backgroundColor) override;
+		void FillRectangle(const CRV_RectangleF &rect, const CRV_Color &backgroundColor) override;
+		void AddRectangle(const CRV_Rectangle &rect, const CRV_Color &color, int width) override;
+		void AddRectangle(const CRV_RectangleF &rect, const CRV_Color &color, float width ) override;
+		void AddRectangle(const CRV_Rectangle &rect, const CRV_Color &color, int width, const CRV_Color &backgroundColor) override;
+		void AddRectangle(const CRV_RectangleF &rect, const CRV_Color &color, float width, const CRV_Color &backgroundColor) override;
 
-		void FillOval(const crv::type::Rectangle &rect, const CRV_Color &backgroundColor) override;
-		void FillOval(const BoundingBoxF &rect, const CRV_Color &backgroundColor) override;
-		void AddOval(const crv::type::Rectangle &rect, const CRV_Color &color, int width) override;
-		void AddOval(const BoundingBoxF &rect, const CRV_Color &color, float width) override;
-		void AddOval(const crv::type::Rectangle &rect, const CRV_Color &color, int width, const CRV_Color &backgroundColor) override;
-		void AddOval(const BoundingBoxF &rect, const CRV_Color &color, float width, const CRV_Color &backgroundColor) override;
+		void FillOval(const CRV_Rectangle &rect, const CRV_Color &backgroundColor) override;
+		void FillOval(const CRV_RectangleF &rect, const CRV_Color &backgroundColor) override;
+		void AddOval(const CRV_Rectangle &rect, const CRV_Color &color, int width) override;
+		void AddOval(const CRV_RectangleF &rect, const CRV_Color &color, float width) override;
+		void AddOval(const CRV_Rectangle &rect, const CRV_Color &color, int width, const CRV_Color &backgroundColor) override;
+		void AddOval(const CRV_RectangleF &rect, const CRV_Color &color, float width, const CRV_Color &backgroundColor) override;
 
 		~Bitmap() override = default;
 	protected:

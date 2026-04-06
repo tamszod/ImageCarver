@@ -16,7 +16,7 @@ public:
 	 *
 	 * @return A unique pointer to the newly created project.
 	 */
-	static std::unique_ptr<CRV_Project> Create();
+	[[nodiscard]] static std::unique_ptr<CRV_Project> Create();
 
 	/* @brief Loads a project from the specified file path.
 	 *
@@ -24,7 +24,7 @@ public:
 	 *
 	 * @return A unique pointer to the loaded project, or nullptr if loading failed.
 	 */
-	static std::unique_ptr<CRV_Project> Create(const std::string& filePath);
+	[[nodiscard]] static std::unique_ptr<CRV_Project> Create(const std::string& filePath);
 
 	/* @brief Loads a project from the specified file path.
 	 *
@@ -32,7 +32,7 @@ public:
 	 *
 	 * @return A unique pointer to the loaded project, or nullptr if loading failed.
 	 */
-	static std::unique_ptr<CRV_Project> Create(const std::wstring& filePath);
+	[[nodiscard]] static std::unique_ptr<CRV_Project> Create(const std::wstring& filePath);
 
 	/* @brief Loads a project from the given byte stream.
 	 *
@@ -40,7 +40,7 @@ public:
 	 * 
 	 * @return A unique pointer to the loaded project, or nullptr if loading failed.
 	 */
-	static std::unique_ptr<CRV_Project> Create(crv::type::ByteStream& stream);
+	[[nodiscard]] static std::unique_ptr<CRV_Project> Create(crv::type::ByteStream&& stream);
 
 	/* @brief Saves the project and returns a byte stream containing the project data.
 	 *
@@ -63,7 +63,7 @@ public:
 	 *
 	 * @return The width of the project canvas in pixels.
 	 */
-    [[nodiscard]] int GetWidth() const;
+    int GetWidth() const;
 
 	/* @brief Sets the width of the project canvas.
 	 *
@@ -75,7 +75,7 @@ public:
 	 *
 	 * @return The height of the project canvas in pixels.
 	 */
-    [[nodiscard]] int GetHeight() const;
+    int GetHeight() const;
 
 	/* @brief Sets the height of the project canvas.
 	 *
@@ -93,7 +93,7 @@ public:
 	 *
 	 * @return The number of graphic objects in the project.
 	 */
-    [[nodiscard]] size_t GetObjectCount() const;
+	size_t GetObjectCount() const;
 
 	/* @brief Retrieves the graphical object at the specified index.
 	 *
@@ -101,7 +101,7 @@ public:
 	 *
 	 * @return A shared pointer to the graphic object at the specified index, or nullptr if the index is out of range.
 	 */
-    [[nodiscard]] std::shared_ptr<const crv::graphics::Object> GetObject(size_t index) const;
+    std::shared_ptr<const crv::graphics::Object> GetObject(size_t index) const;
 
 	/* @brief Retrieves a mutable reference to the graphic object at the specified index.
 	 *
@@ -109,7 +109,7 @@ public:
 	 *
 	 * @return A shared pointer to the graphic object at the specified index, or nullptr if the index is out of range.
 	 */
-    [[nodiscard]] std::shared_ptr<crv::graphics::Object> GetMutableObject(size_t index);
+    std::shared_ptr<crv::graphics::Object> GetMutableObject(size_t index);
 
 	/* @brief Removes the graphic object at the specified index.
 	 *
@@ -121,7 +121,7 @@ public:
 	 *
 	 * @return The creation date of the project as a string.
 	 */
-    [[nodiscard]] std::string GetCreationDate() const;
+    std::string GetCreationDate() const;
 
 	/* @brief Sets the creation date of the project.
 	 *
@@ -133,7 +133,7 @@ public:
 	 *
 	 * @return The modification date of the project as a string.
 	 */
-    [[nodiscard]] std::string GetModificationDate() const;
+    std::string GetModificationDate() const;
 
 	/* @brief Sets the modification date of the project.
 	 * 

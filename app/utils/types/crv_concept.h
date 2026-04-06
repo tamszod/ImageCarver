@@ -1,8 +1,9 @@
-//
-// Created by Szodorai Tamás Imre on 2026. 04. 06..
-//
+#pragma once
 
-#ifndef IMAGECARVER_CRV_CONCEPT_H
-#define IMAGECARVER_CRV_CONCEPT_H
+#include <type_traits>
 
-#endif //IMAGECARVER_CRV_CONCEPT_H
+template<typename T>
+concept CommonNumericType =
+    std::is_same_v<T, int> ||
+    std::is_same_v<T, float> ||
+    std::is_same_v<T, double>;

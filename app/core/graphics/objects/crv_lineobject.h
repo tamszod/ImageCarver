@@ -20,20 +20,20 @@ namespace crv::graphics {
 
         void OnDraw(CRV_Canvas &canvas) override;
 
-        void SetBBox(const BoundingBoxF &boundingBox) override;
+        void SetBBox(const CRV_RectangleF &boundingBox) override;
         virtual void UpdateBBox();
 
-        virtual const PointF& GetStartPoint() const;
-        virtual void SetStartPoint(const PointF &point);
-        virtual const PointF& GetEndPoint() const;
-        virtual void SetEndPoint(const PointF &point);
+        virtual const CRV_PointF& GetStartPoint() const;
+        virtual void SetStartPoint(const CRV_PointF &point);
+        virtual const CRV_PointF& GetEndPoint() const;
+        virtual void SetEndPoint(const CRV_PointF &point);
         virtual LineHeadType GetStartLineHead() const;
         virtual void SetStartLineHead(LineHeadType type);
         virtual LineHeadType GetEndLineHead() const;
         virtual void SetEndLineHead(LineHeadType type);
         virtual size_t GetPointCount() const;
-        virtual const PointF& GetPoint(size_t index) const;
-        virtual void SetPoint(size_t index, const PointF &point);
+        virtual const CRV_PointF& GetPoint(size_t index) const;
+        virtual void SetPoint(size_t index, const CRV_PointF &point);
 
         const char* GetTypeName() const override;
 
@@ -45,8 +45,8 @@ namespace crv::graphics {
         ~LineObject() override = default;
 
     private:
-        PointF startPoint_{};
-        PointF endPoint_{};
+        CRV_PointF startPoint_{};
+        CRV_PointF endPoint_{};
         LineHeadType startLineHead_ = LineHeadType::NONE;
         LineHeadType endLineHead_ = LineHeadType::NONE;
     };

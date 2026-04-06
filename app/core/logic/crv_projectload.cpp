@@ -1,15 +1,24 @@
 #include "crv_projectload.h"
-#include "../graphics/objects/crv_object.h"
-#include "../graphics/objects/crv_lineobject.h"
-#include "utils/helpers/crv_xmltag.h"
+#include "core/graphics/objects/crv_object.h"
+#include "core/graphics/objects/crv_lineobject.h"
+#include "utils/constants/crv_xmltag.h"
 
-CRV_ProjectLoad::CRV_ProjectLoad(crv::type::ByteStream& stream)
+CRV_ProjectLoad::CRV_ProjectLoad(crv::type::ByteStream&& stream)
     : CRV_XMLCommon()
     , _stream(stream) {
-    Parse(_stream);  // TODO: Maybe try to use one final stream of the file.
 };
 
 std::unique_ptr<CRV_Project> CRV_ProjectLoad::Load() {
+    if (_stream.empty()) {
+        return nullptr;
+    }
+
+    if (_stream.back() != '\0'){
+        _stream.push_back('\0');
+    }
+
+    Parse(reinterpret_cast<char*>(_stream.data()));
+
     auto* root = FindRootNodeElement(crv::xmltag::PROJECT);
 
     if (!root) {

@@ -1,6 +1,9 @@
 #include "crv_lineobject.h"
 #include "core/graphics/render/crv_canvas.h"
 #include "core/graphics/render/crv_pen.h"
+#include "utils/constants/crv_graphicalobjectnames.h"
+
+#include <stdexcept>
 
 void crv::graphics::LineObject::OnDraw(CRV_Canvas& canvas) {
 	auto pen = CRV_Pen::Create(GetColor(), GetLineWidth());
@@ -10,8 +13,8 @@ void crv::graphics::LineObject::OnDraw(CRV_Canvas& canvas) {
 	canvas.SelectPen(std::move(previousPen));
 }
 
-void crv::graphics::LineObject::SetBBox(const BoundingBoxF& boundingBox) {
-    std::vector<PointF> transformedPoints{};
+void crv::graphics::LineObject::SetBBox(const CRV_RectangleF& boundingBox) {
+    std::vector<CRV_PointF> transformedPoints{};
 	transformedPoints.reserve(GetPointCount());
 	auto prevWidth = GetWidth();
 	auto prevHeight = GetHeight();
@@ -37,19 +40,19 @@ void crv::graphics::LineObject::UpdateBBox() {
 	});
 }
 
-const PointF& crv::graphics::LineObject::GetStartPoint() const {
+const CRV_PointF& crv::graphics::LineObject::GetStartPoint() const {
 	return startPoint_;
 }
 
-void crv::graphics::LineObject::SetStartPoint(const PointF& point) {
+void crv::graphics::LineObject::SetStartPoint(const CRV_PointF& point) {
 	startPoint_ = point;
 }
 
-const PointF& crv::graphics::LineObject::GetEndPoint() const {
+const CRV_PointF& crv::graphics::LineObject::GetEndPoint() const {
 	return endPoint_;
 }
 
-void crv::graphics::LineObject::SetEndPoint(const PointF& point) {
+void crv::graphics::LineObject::SetEndPoint(const CRV_PointF& point) {
 	endPoint_ = point;
 	UpdateBBox();
 }
@@ -74,17 +77,17 @@ size_t crv::graphics::LineObject::GetPointCount() const {
 	return 2;
 }
 
-const PointF& crv::graphics::LineObject::GetPoint(size_t index) const {
+const CRV_PointF& crv::graphics::LineObject::GetPoint(size_t index) const {
 	if (index == 0) {
 		return startPoint_;
 	}
 	else if (index == 1) {
 		return endPoint_;
 	}
-	return {};
+	throw std::out_of_range("LineObject::GetPoint - index out of range");
 }
 
-void crv::graphics::LineObject::SetPoint(size_t index, const PointF& point) {
+void crv::graphics::LineObject::SetPoint(size_t index, const CRV_PointF& point) {
 	if (index == 0) {
 		startPoint_ = point;
 	}
@@ -94,7 +97,7 @@ void crv::graphics::LineObject::SetPoint(size_t index, const PointF& point) {
 }
 
 const char* crv::graphics::LineObject::GetTypeName() const {
-	return "line";
+	return crv::graphics::LINE;
 }
 
 bool crv::graphics::LineObject::IsLine() const {

@@ -1,4 +1,5 @@
 #include "crv_ovalobject.h"
+#include "utils/constants/crv_graphicalobjectnames.h"
 
 void crv::graphics::OvalObject::OnDraw(CRV_Canvas& canvas) {
 	auto pen = CRV_Pen::Create(GetColor(), GetLineWidth());
@@ -11,7 +12,7 @@ void crv::graphics::OvalObject::OnDraw(CRV_Canvas& canvas) {
 }
 
 const char* crv::graphics::OvalObject::GetTypeName() const {
-	return "oval";
+	return crv::graphics::OVAL;
 }
 
 bool crv::graphics::OvalObject::IsOval() const {

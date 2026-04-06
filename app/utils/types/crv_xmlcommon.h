@@ -1,7 +1,8 @@
 #pragma once
 
 #include "RapidXML/rapidxml.hpp"
-#include "../type.h"
+#include "utils/types/crv_point.h"
+#include "utils/types/crv_rectangle.h"
 
 #include <memory>
 #include <optional>
@@ -12,13 +13,13 @@ protected:
 	///////////////
 	//* Reading *//
 	///////////////
-	void Parse(crv::type::ByteStream& stream);
+	void Parse(Ch* chStream);
 	rapidxml::xml_node<Ch>* FindRootNodeElement(const Ch* name);
 	rapidxml::xml_node<Ch>* FindNodeElement(rapidxml::xml_node<char>* node, const Ch* name);
 	std::optional<Ch*> FindNodeElementValue(rapidxml::xml_node<char>* node, const Ch* name);
 	std::optional<int> FindNodeElementIntValue(rapidxml::xml_node<char>* node, const Ch* name);
-	std::optional<std::vector<PointF>> FindNodeElementPointFListValue(rapidxml::xml_node<char>* node, const Ch* name, const Ch* subname);
-	std::optional<BoundingBoxF> FindNodeElementBoundingBoxFValue(rapidxml::xml_node<char>* node, const Ch* name);
+	std::optional<std::vector<CRV_PointF>> FindNodeElementPointFListValue(rapidxml::xml_node<char>* node, const Ch* name, const Ch* subname);
+	std::optional<CRV_RectangleF> FindNodeElementBoundingBoxFValue(rapidxml::xml_node<char>* node, const Ch* name);
 	std::optional<std::unique_ptr<CRV_Color>> FindNodeElementCRVColorValue(rapidxml::xml_node<char>* node, const Ch* name);
 	std::optional<int> FindAttributeIntValue(rapidxml::xml_node<char>* node, const Ch* name);
 	std::optional<float> FindAttributeFloatValue(rapidxml::xml_node<char>* node, const Ch* name);
@@ -32,8 +33,8 @@ protected:
 	rapidxml::xml_node<Ch>* CreateNodeElement(const Ch* name);
 	rapidxml::xml_node<Ch>* CreateNodeElement(const Ch* name, const Ch* value);
 	rapidxml::xml_node<Ch>* CreateNodeElement(const Ch* name, uint32_t value);
-	rapidxml::xml_node<Ch>* CreateNodeElement(const Ch* name, const Ch* subname, std::vector<PointF> points);
-	rapidxml::xml_node<Ch>* CreateNodeElement(const Ch* name, const BoundingBoxF& value);
+	rapidxml::xml_node<Ch>* CreateNodeElement(const Ch* name, const Ch* subname, std::vector<CRV_PointF> points);
+	rapidxml::xml_node<Ch>* CreateNodeElement(const Ch* name, const CRV_RectangleF& value);
 	rapidxml::xml_node<Ch>* CreateNodeElement(const Ch* name, const CRV_Color& value);
 	void AppendAttribute(rapidxml::xml_node<Ch>* node, const Ch* name, const Ch* value);
 	void AppendAttribute(rapidxml::xml_node<Ch>* node, const Ch* name, int value);

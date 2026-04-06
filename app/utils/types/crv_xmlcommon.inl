@@ -1,10 +1,6 @@
-#pragma once
-
 template<typename Ch>
-void CRV_XMLCommon<Ch>::Parse(crv::type::ByteStream& stream) {
-    _chstream = std::vector<Ch>(stream.begin(), stream.end());
-    _chstream.push_back('\0');
-    _xmlDocument->template parse<0>(_chstream.data());
+void CRV_XMLCommon<Ch>::Parse(Ch* chStream) {
+    _xmlDocument->template parse<0>(chStream);
 }
 
 template<typename Ch>
@@ -41,12 +37,12 @@ std::optional<int> CRV_XMLCommon<Ch>::FindNodeElementIntValue(rapidxml::xml_node
 }
 
 template<typename Ch>
-std::optional<std::vector<PointF>> CRV_XMLCommon<Ch>::FindNodeElementPointFListValue(
+std::optional<std::vector<CRV_PointF>> CRV_XMLCommon<Ch>::FindNodeElementPointFListValue(
     rapidxml::xml_node<char>* node, const Ch* name, const Ch* subname
 ) {
     if (auto* parent = node->first_node(name)) {
 
-        std::vector<PointF> points;
+        std::vector<CRV_PointF> points;
 
         for (auto* child = parent->first_node(subname); child; child = child->next_sibling(subname)) {
 
@@ -57,7 +53,7 @@ std::optional<std::vector<PointF>> CRV_XMLCommon<Ch>::FindNodeElementPointFListV
 				return std::nullopt;
             }
 
-            points.push_back(PointF{ *x, *y });
+            points.push_back(CRV_PointF{ *x, *y });
         }
 
         if (!points.empty()) {
@@ -69,7 +65,7 @@ std::optional<std::vector<PointF>> CRV_XMLCommon<Ch>::FindNodeElementPointFListV
 }
 
 template<typename Ch>
-std::optional<BoundingBoxF> CRV_XMLCommon<Ch>::FindNodeElementBoundingBoxFValue(rapidxml::xml_node<char>* node, const Ch* name) {
+std::optional<CRV_RectangleF> CRV_XMLCommon<Ch>::FindNodeElementBoundingBoxFValue(rapidxml::xml_node<char>* node, const Ch* name) {
    if (auto* bbox = node->first_node(name)) {
 
         auto left = FindAttributeFloatValue(bbox, "left");
@@ -81,7 +77,7 @@ std::optional<BoundingBoxF> CRV_XMLCommon<Ch>::FindNodeElementBoundingBoxFValue(
             return std::nullopt;
         }
 
-        return BoundingBoxF{
+        return CRV_RectangleF{
             *left,
             *top,
             *right,
@@ -206,7 +202,7 @@ rapidxml::xml_node<Ch>* CRV_XMLCommon<Ch>::CreateNodeElement(const Ch* name, con
 }
 
 template<typename Ch>
-rapidxml::xml_node<Ch>* CRV_XMLCommon<Ch>::CreateNodeElement(const Ch* name, const BoundingBoxF& value) {
+rapidxml::xml_node<Ch>* CRV_XMLCommon<Ch>::CreateNodeElement(const Ch* name, const CRV_RectangleF& value) {
 	auto* node = CreateNodeElement(name);
     AppendAttribute(node, "left", value.left);
     AppendAttribute(node, "top", value.top);
@@ -236,7 +232,7 @@ rapidxml::xml_node<Ch>* CRV_XMLCommon<Ch>::CreateNodeElement(const Ch* name, uin
 }
 
 template<typename Ch>
-rapidxml::xml_node<Ch>* CRV_XMLCommon<Ch>::CreateNodeElement(const Ch* name, const Ch* subname, std::vector<PointF> points) {
+rapidxml::xml_node<Ch>* CRV_XMLCommon<Ch>::CreateNodeElement(const Ch* name, const Ch* subname, std::vector<CRV_PointF> points) {
     auto* node = CreateNodeElement(name);
     for (size_t i = 0; i < points.size(); i++) {
         auto* subNode = CreateNodeElement(subname);

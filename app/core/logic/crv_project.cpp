@@ -15,35 +15,32 @@ std::unique_ptr<CRV_Project> CRV_Project::Create(const std::string& filePath) {
 }
 
 std::unique_ptr<CRV_Project> CRV_Project::Create(const std::wstring& filePath) {
-	// TODO: Simplify file read
-
-	std::ifstream file(std::filesystem::path(filePath), std::ios::binary);
+std::ifstream file(std::filesystem::path(filePath), std::ios::binary);
 	if (!file) {
 		return nullptr;
 	}
 
-	// Get file size
-	file.seekg(0, std::ios::end);
-	std::streamsize size = file.tellg();
-
-	// Move back to the beginning
-	file.seekg(0, std::ios::beg);
-
-	if (size <= 0) {
+	auto size = std::filesystem::file_size(filePath);
+	if (size == 0) {
 		return nullptr;
 	}
 
-	// Read directly
-	crv::type::ByteStream buffer(size);
+	crv::type::ByteStream buffer(size+1);
 	if (!file.read(reinterpret_cast<char*>(buffer.data()), size)) {
 		return nullptr;
 	}
 
-	return Create(buffer);
+	if (file.gcount() != size) {
+		return nullptr;
+	}
+
+	buffer[size] = '\0'; // Add the terminator character early so buffer is allocated once and complete for parsing.
+
+	return Create(std::move(buffer));
 }
 
-std::unique_ptr<CRV_Project> CRV_Project::Create(crv::type::ByteStream& stream) {
-	CRV_ProjectLoad operation{ stream };
+std::unique_ptr<CRV_Project> CRV_Project::Create(crv::type::ByteStream&& stream) {
+	CRV_ProjectLoad operation{ std::move(stream) };
 	return operation.Load();
 }
 

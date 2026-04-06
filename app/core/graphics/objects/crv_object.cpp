@@ -2,29 +2,30 @@
 #include "crv_ovalobject.h"
 #include "crv_lineobject.h"
 #include "crv_rectangleobject.h"
-#include "../../../utils/crv_helper.h"
+#include "utils/helpers/crv_math.h"
+#include "utils/constants/crv_graphicalobjectnames.h"
 
 #include <memory>
 
 std::unique_ptr<crv::graphics::Object> crv::graphics::Object::Create(const std::string& typeName) {
-	if (typeName == "line") {
+	if (typeName == crv::graphics::LINE) {
 		return std::make_unique<LineObject>();
 	}
-	else if (typeName == "rectangle") {
+	else if (typeName == crv::graphics::RECTANGLE) {
 		return std::make_unique<RectangleObject>();
 	}
-	else if (typeName == "oval") {
+	else if (typeName == crv::graphics::OVAL) {
 		return std::make_unique<OvalObject>();
 	}
 	return nullptr;
 }
 
-bool crv::graphics::Object::OnMove(PointF offset) {
+bool crv::graphics::Object::OnMove(CRV_PointF offset) {
     boundingBox_ += offset;
 	return true;
 }
 
-bool crv::graphics::Object::OnResize(ResizePoint resizeStart, PointF offset) {
+bool crv::graphics::Object::OnResize(ResizePoint resizeStart, CRV_PointF offset) {
 	switch (resizeStart) {
 		case ResizePoint::BOTTOM:
 		case ResizePoint::BOTTOM_LEFT:
@@ -73,14 +74,14 @@ float crv::graphics::Object::GetRotation() const {
 
 void crv::graphics::Object::SetRotation(float rotationDegree) {
 	rotationDegree_ = rotationDegree;
-	crv::helper::NormalizeRotationDegree(rotationDegree_);
+	crv::math::NormalizeRotationDegree(rotationDegree_);
 }
 
-const BoundingBoxF& crv::graphics::Object::GetBBox() const {
+const CRV_RectangleF& crv::graphics::Object::GetBBox() const {
 	return boundingBox_;
 }
 
-void crv::graphics::Object::SetBBox(const BoundingBoxF& boundingBox) {
+void crv::graphics::Object::SetBBox(const CRV_RectangleF& boundingBox) {
 	boundingBox_ = boundingBox;
 }
 

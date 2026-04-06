@@ -1,10 +1,11 @@
 #pragma once
 
+#include "utils/types/crv_point.h"
+#include "utils/types/crv_rectangle.h"
 #include "core/graphics/formats/crv_commonimage.h"
 #include "core/graphics/formats/crv_bitmap.h"
 #include "crv_pen.h"
 #include "crv_brush.h"
-#include "utils/type.h"
 
 #include <memory>
 
@@ -65,21 +66,21 @@ public:
 	 *
 	 * @param rect The rectangle to draw, defined by its left, top, right, and bottom coordinates.
 	 */
-	void DrawRectangle(const crv::type::Rectangle& rect);
-	void DrawRectangle(const BoundingBoxF& rect);
+	void DrawRectangle(const CRV_Rectangle & rect);
+	void DrawRectangle(const CRV_RectangleF& rect);
 
 	/* @brief Fills a rectangle defined by the specified coordinates using the currently selected brush.
 	 *
 	 * @param rect The rectangle to fill, defined by its left, top, right, and bottom coordinates.
 	 */
-	void FillRectangle(const crv::type::Rectangle& rect);
-	void FillRectangle(const BoundingBoxF& rect);
+	void FillRectangle(const CRV_Rectangle& rect);
+	void FillRectangle(const CRV_RectangleF& rect);
 
-	void DrawOval(const crv::type::Rectangle& rect);
-	void DrawOval(const BoundingBoxF& rect);
+	void DrawOval(const CRV_Rectangle& rect);
+	void DrawOval(const CRV_RectangleF& rect);
 
-	void FillOval(const crv::type::Rectangle& rect);
-	void FillOval(const BoundingBoxF& rect);
+	void FillOval(const CRV_Rectangle& rect);
+	void FillOval(const CRV_RectangleF& rect);
 
 
 	CRV_Canvas() = default;
@@ -99,7 +100,7 @@ private:
 	std::unique_ptr<CRV_Color> fallbackColor_{};
 	std::unique_ptr<CRV_Color> fallbackBackgroundColor_{};
 
-	PointF _currentPosition{ 0, 0 };
+	CRV_PointF _currentPosition{ 0, 0 };
 };
 
 #include "crv_canvas.inl"

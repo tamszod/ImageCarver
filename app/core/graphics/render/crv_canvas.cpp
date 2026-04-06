@@ -55,49 +55,49 @@ void CRV_Canvas::DrawLineTo(float x, float y) {
 	MoveTo(x, y);
 }
 
-void CRV_Canvas::DrawRectangle(const crv::type::Rectangle& rect) {
+void CRV_Canvas::DrawRectangle(const CRV_Rectangle& rect) {
 	if (target_) {
 		target_->AddRectangle(rect, GetSelectedColor(), GetSelectedWidth(), GetSelectedBackgroundColor());
 	}
 }
 
-void CRV_Canvas::DrawRectangle(const BoundingBoxF& rect) {
+void CRV_Canvas::DrawRectangle(const CRV_RectangleF& rect) {
 	if (target_) {
 		target_->AddRectangle(rect, GetSelectedColor(), GetSelectedWidth<float>(), GetSelectedBackgroundColor());
 	}
 }
 
-void CRV_Canvas::FillRectangle(const crv::type::Rectangle& rect) {
+void CRV_Canvas::FillRectangle(const CRV_Rectangle& rect) {
 	if (target_) {
 		target_->FillRectangle(rect, GetSelectedColor());
 	}
 }
 
-void CRV_Canvas::FillRectangle(const BoundingBoxF& rect) {
+void CRV_Canvas::FillRectangle(const CRV_RectangleF& rect) {
 	if (target_) {
 		target_->FillRectangle(rect, GetSelectedColor());
 	}
 }
 
-void CRV_Canvas::DrawOval(const crv::type::Rectangle& rect) {
+void CRV_Canvas::DrawOval(const CRV_Rectangle& rect) {
 	if (target_) {
 		target_->AddOval(rect, GetSelectedColor(), GetSelectedWidth(), GetSelectedBackgroundColor());
 	}
 }
 
-void CRV_Canvas::DrawOval(const BoundingBoxF& rect) {
+void CRV_Canvas::DrawOval(const CRV_RectangleF& rect) {
 	if (target_) {
 		target_->AddOval(rect, GetSelectedColor(), GetSelectedWidth<float>(), GetSelectedBackgroundColor());
 	}
 }
 
-void CRV_Canvas::FillOval(const crv::type::Rectangle& rect) {
+void CRV_Canvas::FillOval(const CRV_Rectangle& rect) {
 	if (target_) {
 		target_->FillOval(rect, GetSelectedBackgroundColor());
 	}
 }
 
-void CRV_Canvas::FillOval(const BoundingBoxF& rect) {
+void CRV_Canvas::FillOval(const CRV_RectangleF& rect) {
 	if (target_) {
 		target_->FillOval(rect, GetSelectedBackgroundColor());
 	}

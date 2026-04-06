@@ -6,7 +6,7 @@
 
 class CRV_ProjectLoad : CRV_XMLCommon<char> {
 public:
-	explicit CRV_ProjectLoad(crv::type::ByteStream& stream);
+	explicit CRV_ProjectLoad(crv::type::ByteStream&& stream);
 	std::unique_ptr<CRV_Project> Load();
 protected:
 	void ParseHeader(rapidxml::xml_node<char>* headerNode);
@@ -15,6 +15,6 @@ protected:
 
 	std::unique_ptr<crv::graphics::Object> ParseGraphicalObject(rapidxml::xml_node<char>* node);
 
-    crv::type::ByteStream& _stream;
+    crv::type::ByteStream _stream;
     std::unique_ptr<CRV_Project> _project{};
 };

@@ -203,7 +203,7 @@ void crv::graphics::Bitmap::AddLine(float x0, float y0, float x1, float y1,
     }
 }
 
-void crv::graphics::Bitmap::FillRectangle(const crv::type::Rectangle& rect, const CRV_Color& backgroundColor) {
+void crv::graphics::Bitmap::FillRectangle(const CRV_Rectangle& rect, const CRV_Color& backgroundColor) {
     int left = std::max(0, rect.left);
     int right = std::min(_width - 1, rect.right);
     int top = std::max(0, rect.top);
@@ -216,7 +216,7 @@ void crv::graphics::Bitmap::FillRectangle(const crv::type::Rectangle& rect, cons
     }
 }
 
-void crv::graphics::Bitmap::FillRectangle(const BoundingBoxF& rect, const CRV_Color& backgroundColor) {
+void crv::graphics::Bitmap::FillRectangle(const CRV_RectangleF& rect, const CRV_Color& backgroundColor) {
     float left = rect.left;
     float right = rect.right;
     float top = rect.top;
@@ -265,26 +265,26 @@ void crv::graphics::Bitmap::FillRectangle(const BoundingBoxF& rect, const CRV_Co
     }
 }
 
-void crv::graphics::Bitmap::AddRectangle(const crv::type::Rectangle& rect, const CRV_Color& color, int width) {
+void crv::graphics::Bitmap::AddRectangle(const CRV_Rectangle& rect, const CRV_Color& color, int width) {
 	AddLine(rect.left, rect.top, rect.right, rect.top, color, width);
 	AddLine(rect.right, rect.top, rect.right, rect.bottom, color, width);
 	AddLine(rect.right, rect.bottom, rect.left, rect.bottom, color, width);
 	AddLine(rect.left, rect.bottom, rect.left, rect.top, color, width);
 }
 
-void crv::graphics::Bitmap::AddRectangle(const BoundingBoxF& rect, const CRV_Color& color, float width) {
+void crv::graphics::Bitmap::AddRectangle(const CRV_RectangleF& rect, const CRV_Color& color, float width) {
 	AddLine(rect.left, rect.top, rect.right, rect.top, color, width);
 	AddLine(rect.right, rect.top, rect.right, rect.bottom, color, width);
 	AddLine(rect.right, rect.bottom, rect.left, rect.bottom, color, width);
 	AddLine(rect.left, rect.bottom, rect.left, rect.top, color, width);
 }
 
-void crv::graphics::Bitmap::AddRectangle(const crv::type::Rectangle& rect, const CRV_Color& color, int width, const CRV_Color& backgroundColor) {
+void crv::graphics::Bitmap::AddRectangle(const CRV_Rectangle& rect, const CRV_Color& color, int width, const CRV_Color& backgroundColor) {
 	FillRectangle(rect, backgroundColor);
 	AddRectangle(rect, color, width);
 }
 
-void crv::graphics::Bitmap::AddRectangle(const BoundingBoxF& rect, const CRV_Color& color, float width, const CRV_Color& backgroundColor) {
+void crv::graphics::Bitmap::AddRectangle(const CRV_RectangleF& rect, const CRV_Color& color, float width, const CRV_Color& backgroundColor) {
 	FillRectangle(rect, backgroundColor);
     crv::type::Rectangle strictRect = {
         (int)std::floor(rect.left),
@@ -292,10 +292,10 @@ void crv::graphics::Bitmap::AddRectangle(const BoundingBoxF& rect, const CRV_Col
         (int)std::ceil(rect.right),
         (int)std::ceil(rect.bottom)
     };
-	AddRectangle(strictRect, color, width);
+	AddRectangle(strictRect, color, static_cast<int>(width));
 }
 
-void crv::graphics::Bitmap::FillOval(const crv::type::Rectangle& rect, const CRV_Color& backgroundColor) {
+void crv::graphics::Bitmap::FillOval(const CRV_Rectangle& rect, const CRV_Color& backgroundColor) {
     int left = std::max(0, rect.left);
     int right = std::min(_width - 1, rect.right);
     int top = std::max(0, rect.top);
@@ -331,7 +331,7 @@ void crv::graphics::Bitmap::FillOval(const crv::type::Rectangle& rect, const CRV
     }
 }
 
-void crv::graphics::Bitmap::FillOval(const BoundingBoxF& rect,
+void crv::graphics::Bitmap::FillOval(const CRV_RectangleF& rect,
     const CRV_Color& backgroundColor) {
     float left = rect.left;
     float right = rect.right;
@@ -394,7 +394,7 @@ void crv::graphics::Bitmap::FillOval(const BoundingBoxF& rect,
     }
 }
 
-void crv::graphics::Bitmap::AddOval(const crv::type::Rectangle& rect,
+void crv::graphics::Bitmap::AddOval(const CRV_Rectangle& rect,
     const CRV_Color& color, int width)
 {
     float cx = (rect.left + rect.right) * 0.5f;
@@ -438,7 +438,7 @@ void crv::graphics::Bitmap::AddOval(const crv::type::Rectangle& rect,
     }
 }
 
-void crv::graphics::Bitmap::AddOval(const BoundingBoxF& rect,
+void crv::graphics::Bitmap::AddOval(const CRV_RectangleF& rect,
     const CRV_Color& color, float width) {
     float left = rect.left, right = rect.right;
     float top = rect.top, bottom = rect.bottom;
@@ -497,12 +497,12 @@ void crv::graphics::Bitmap::AddOval(const BoundingBoxF& rect,
     }
 }
 
-void crv::graphics::Bitmap::AddOval(const crv::type::Rectangle& rect, const CRV_Color& color, int width, const CRV_Color& backgroundColor) {
+void crv::graphics::Bitmap::AddOval(const CRV_Rectangle& rect, const CRV_Color& color, int width, const CRV_Color& backgroundColor) {
     FillOval(rect, backgroundColor);
     AddOval(rect, color, width);
 }
 
-void crv::graphics::Bitmap::AddOval(const BoundingBoxF& rect, const CRV_Color& color, float width, const CRV_Color& backgroundColor) {
+void crv::graphics::Bitmap::AddOval(const CRV_RectangleF& rect, const CRV_Color& color, float width, const CRV_Color& backgroundColor) {
    
     crv::type::Rectangle strictRect = {
         (int)std::floor(rect.left),

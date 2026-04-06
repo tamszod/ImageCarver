@@ -1,4 +1,5 @@
 #include "crv_rectangleobject.h"
+#include "utils/constants/crv_graphicalobjectnames.h"
 
 void crv::graphics::RectangleObject::OnDraw(CRV_Canvas& canvas) {
 	auto pen = CRV_Pen::Create(GetColor(), GetLineWidth());
@@ -11,7 +12,7 @@ void crv::graphics::RectangleObject::OnDraw(CRV_Canvas& canvas) {
 }
 
 const char* crv::graphics::RectangleObject::GetTypeName() const {
-	return "rectangle";
+	return crv::graphics::RECTANGLE;
 }
 
 bool  crv::graphics::RectangleObject::IsRectangle() const {

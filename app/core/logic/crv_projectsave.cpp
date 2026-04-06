@@ -1,15 +1,13 @@
-#include "crv_projectsave.h"
-
 #include "RapidXML/rapidxml_print.hpp"
-#include "../graphics/objects/crv_lineobject.h"
+#include "core/graphics/objects/crv_lineobject.h"
 #include "utils/helpers/time.h"
-#include "utils/helpers/crv_xmltag.h"
+#include "utils/constants//crv_xmltag.h"
+#include "crv_projectsave.h"
 #include "crv_versioninfo.h"
 
 CRV_ProjectSave::CRV_ProjectSave(const CRV_Project& project) 
 	: CRV_XMLCommon()
     , project_(project) {
-
 }
 
 crv::type::ByteStream CRV_ProjectSave::Save() {
@@ -100,7 +98,7 @@ rapidxml::xml_node<char>* CRV_ProjectSave::CreateGraphicalObjectNode(std::shared
 	// <bbox .../> or <points .../>
     if (object->IsLine()) {
         auto lineCount = object->AsLine()->GetPointCount();
-        std::vector<PointF> linePoints;
+        std::vector<CRV_PointF> linePoints;
         linePoints.reserve(lineCount);
 		for (size_t i = 0; i < lineCount; i++) {
             linePoints.emplace_back(object->AsLine()->GetPoint(i));
