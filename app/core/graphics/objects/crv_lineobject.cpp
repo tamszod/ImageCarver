@@ -1,88 +1,103 @@
 #include "crv_lineobject.h"
+#include "core/graphics/render/crv_canvas.h"
+#include "core/graphics/render/crv_pen.h"
+#include "utils/constants/crv_graphicalobjectnames.h"
 
-#include "../render/crv_canvas.h"
-#include "../render/crv_pen.h"
+#include <stdexcept>
 
 void crv::graphics::LineObject::OnDraw(CRV_Canvas& canvas) {
 	auto pen = CRV_Pen::Create(GetColor(), GetLineWidth());
 	auto previousPen = canvas.SelectPen(std::move(pen));
-	canvas.MoveTo(_startPoint.x, _startPoint.y);
-	canvas.DrawLineTo(_endPoint.x, _endPoint.y);
+	canvas.MoveTo(startPoint_.x, startPoint_.y);
+	canvas.DrawLineTo(endPoint_.x, endPoint_.y);
 	canvas.SelectPen(std::move(previousPen));
 }
 
-void crv::graphics::LineObject::SetBBox(const BoundingBoxF& boundingBox) {
-
-}
-
-void crv::graphics::LineObject::UpdateBBox() {
-	crv::graphics::Object::SetBBox( BoundingBoxF{
-		std::min(_startPoint.x, _endPoint.x),
-		std::min(_startPoint.y, _endPoint.y),
-		std::max(_startPoint.x, _endPoint.x),
-		std::max(_startPoint.y, _endPoint.y)
-	});
-}
-
-PointF crv::graphics::LineObject::GetStartPoint() const {
-	return _startPoint; 
-}
-
-void crv::graphics::LineObject::SetStartPoint(const PointF& point) {
-	_startPoint = point; 
+void crv::graphics::LineObject::SetBBox(const CRV_RectangleF& boundingBox) {
+    std::vector<CRV_PointF> transformedPoints{};
+	transformedPoints.reserve(GetPointCount());
+	auto prevWidth = GetWidth();
+	auto prevHeight = GetHeight();
+	auto width = boundingBox.right - boundingBox.left;
+	auto height = boundingBox.bottom - boundingBox.top;;
+	for (size_t i = 0; i < GetPointCount(); ++i) {
+		const auto& prevPoint = GetPoint(i);
+		SetPoint( i,
+				{ // new box side + (prev scale) * new size
+						boundingBox_.left+((prevPoint.x-boundingBox_.left)/prevWidth)*width,
+						boundingBox_.top+((prevPoint.y-boundingBox_.top)/prevHeight)*height,
+				});
+	}
 	UpdateBBox();
 }
 
-PointF crv::graphics::LineObject::GetEndPoint() const {
-	return _endPoint; 
+void crv::graphics::LineObject::UpdateBBox() {
+	crv::graphics::Object::SetBBox( {
+		std::min(startPoint_.x, endPoint_.x),
+		std::min(startPoint_.y, endPoint_.y),
+		std::max(startPoint_.x, endPoint_.x),
+		std::max(startPoint_.y, endPoint_.y)
+	});
 }
 
-void crv::graphics::LineObject::SetEndPoint(const PointF& point) {
-	_endPoint = point;
+const CRV_PointF& crv::graphics::LineObject::GetStartPoint() const {
+	return startPoint_;
+}
+
+void crv::graphics::LineObject::SetStartPoint(const CRV_PointF& point) {
+	startPoint_ = point;
+}
+
+const CRV_PointF& crv::graphics::LineObject::GetEndPoint() const {
+	return endPoint_;
+}
+
+void crv::graphics::LineObject::SetEndPoint(const CRV_PointF& point) {
+	endPoint_ = point;
 	UpdateBBox();
 }
 
 crv::graphics::LineObject::LineHeadType crv::graphics::LineObject::GetStartLineHead() const {
-	return _startLineHead;
+	return startLineHead_;
 }
 
 void crv::graphics::LineObject::SetStartLineHead(crv::graphics::LineObject::LineHeadType type) {
-	_startLineHead = type;
+	startLineHead_ = type;
 }
 
 crv::graphics::LineObject::LineHeadType crv::graphics::LineObject::GetEndLineHead() const {
-	return _endLineHead;
+	return endLineHead_;
 }
 
 void crv::graphics::LineObject::SetEndLineHead(crv::graphics::LineObject::LineHeadType type) {
-	_endLineHead = type;
+	endLineHead_ = type;
 }
 
 size_t crv::graphics::LineObject::GetPointCount() const {
 	return 2;
 }
 
-const PointF crv::graphics::LineObject::GetPoint(size_t index) const {
+const CRV_PointF& crv::graphics::LineObject::GetPoint(size_t index) const {
 	if (index == 0) {
-		return _startPoint;
+		return startPoint_;
 	}
 	else if (index == 1) {
-		return _endPoint;
+		return endPoint_;
 	}
-	return {};
+	throw std::out_of_range("LineObject::GetPoint - index out of range");
 }
 
-void crv::graphics::LineObject::SetPoint(size_t index, const PointF& point) {
+void crv::graphics::LineObject::SetPoint(size_t index, const CRV_PointF& point) {
 	if (index == 0) {
-		_startPoint = point;
+		startPoint_ = point;
 	}
 	else if (index == 1) {
-		_endPoint = point;
+		endPoint_ = point;
 	}
 }
 
 const char* crv::graphics::LineObject::GetTypeName() const {
-	return "line";
+	return crv::graphics::LINE;
 }
 
 bool crv::graphics::LineObject::IsLine() const {

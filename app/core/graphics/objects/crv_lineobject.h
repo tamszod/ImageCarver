@@ -2,57 +2,52 @@
 
 #include "crv_commonlineobject.h"
 
+namespace crv::graphics {
+    class LineObject : public CommonLineObject {
+    public:
+        enum class LineHeadType {
+            NONE = 0
+            // OPEN,
+            // CLOSED,
+            // REVERSED_OPEN,
+            // DIAMOND,
+            // REVERSED_CLOSED,
+            // BUTT,
+            // SQUARE,
+            // SLASH,
+            // ROUND
+        };
 
-namespace crv {
-	namespace graphics {
-		class LineObject : public CommonLineObject {
-		public:
-			enum class LineHeadType {
-				NONE = 0
-				// OPEN,
-				// CLOSED,
-				// REVERSED_OPEN,
-				// DIAMOND,
-				// REVERSED_CLOSED,
-				// BUTT,
-				// SQUARE,
-				// SLASH,
-				// ROUND
-			};
+        void OnDraw(CRV_Canvas &canvas) override;
 
-			virtual void OnDraw(CRV_Canvas& canvas) override;
+        void SetBBox(const CRV_RectangleF &boundingBox) override;
+        virtual void UpdateBBox();
 
-			virtual void SetBBox(const BoundingBoxF& boundingBox) override;
+        virtual const CRV_PointF& GetStartPoint() const;
+        virtual void SetStartPoint(const CRV_PointF &point);
+        virtual const CRV_PointF& GetEndPoint() const;
+        virtual void SetEndPoint(const CRV_PointF &point);
+        virtual LineHeadType GetStartLineHead() const;
+        virtual void SetStartLineHead(LineHeadType type);
+        virtual LineHeadType GetEndLineHead() const;
+        virtual void SetEndLineHead(LineHeadType type);
+        virtual size_t GetPointCount() const;
+        virtual const CRV_PointF& GetPoint(size_t index) const;
+        virtual void SetPoint(size_t index, const CRV_PointF &point);
 
-			virtual void UpdateBBox();
+        const char* GetTypeName() const override;
 
-			PointF GetStartPoint() const;
-			void SetStartPoint(const PointF& point);
-			PointF GetEndPoint() const;
-			void SetEndPoint(const PointF& point);
+        bool IsLine() const override;
+        const LineObject *AsLine() const override;
+        LineObject *AsMutableLine() override;
 
-			LineHeadType GetStartLineHead() const;
-			void SetStartLineHead(LineHeadType type);
-			LineHeadType GetEndLineHead() const;
-			void SetEndLineHead(LineHeadType type);
+        explicit LineObject() = default;
+        ~LineObject() override = default;
 
-			virtual size_t GetPointCount() const;
-			virtual const PointF GetPoint(size_t index) const;
-			virtual void SetPoint(size_t index, const PointF& point);
-
-			virtual const char* GetTypeName() const override;
-
-			bool IsLine() const override;
-			const LineObject* AsLine() const override;
-			LineObject* AsMutableLine() override;
-
-			LineObject() = default;
-			~LineObject() = default;
-		private:
-			PointF _startPoint{};
-			PointF _endPoint{};
-			LineHeadType _startLineHead = LineHeadType::NONE;
-			LineHeadType _endLineHead = LineHeadType::NONE;
-		};
-	}
+    private:
+        CRV_PointF startPoint_{};
+        CRV_PointF endPoint_{};
+        LineHeadType startLineHead_ = LineHeadType::NONE;
+        LineHeadType endLineHead_ = LineHeadType::NONE;
+    };
 }

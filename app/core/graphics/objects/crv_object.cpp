@@ -2,56 +2,63 @@
 #include "crv_ovalobject.h"
 #include "crv_lineobject.h"
 #include "crv_rectangleobject.h"
-#include "../../../utils/crv_helper.h"
+#include "utils/helpers/crv_math.h"
+#include "utils/constants/crv_graphicalobjectnames.h"
 
 #include <memory>
 
 std::unique_ptr<crv::graphics::Object> crv::graphics::Object::Create(const std::string& typeName) {
-	if (typeName == "line") {
+	if (typeName == crv::graphics::LINE) {
 		return std::make_unique<LineObject>();
 	}
-	else if (typeName == "rectangle") {
+	else if (typeName == crv::graphics::RECTANGLE) {
 		return std::make_unique<RectangleObject>();
 	}
-	else if (typeName == "oval") {
+	else if (typeName == crv::graphics::OVAL) {
 		return std::make_unique<OvalObject>();
 	}
 	return nullptr;
 }
 
-bool crv::graphics::Object::OnMove(PointF offset) {
-	_BBox += offset;
+bool crv::graphics::Object::OnMove(CRV_PointF offset) {
+    boundingBox_ += offset;
 	return true;
 }
 
-bool crv::graphics::Object::OnResize(ResizePoint resizeStart, PointF offset) {
+bool crv::graphics::Object::OnResize(ResizePoint resizeStart, CRV_PointF offset) {
 	switch (resizeStart) {
 		case ResizePoint::BOTTOM:
 		case ResizePoint::BOTTOM_LEFT:
 		case ResizePoint::BOTTOM_RIGHT:
-			_BBox.bottom += offset.y;
+            boundingBox_.bottom += offset.y;
 			break;
 		case ResizePoint::TOP:
 		case ResizePoint::TOP_LEFT:
 		case ResizePoint::TOP_RIGHT:
-			_BBox.top += offset.y;
+            boundingBox_.top += offset.y;
+            break;
+        default:
+            break;
 	}
 	switch (resizeStart) {
 		case ResizePoint::LEFT:
 		case ResizePoint::TOP_LEFT:
 		case ResizePoint::BOTTOM_LEFT:
-			_BBox.left += offset.x;
+            boundingBox_.left += offset.x;
 			break;
 		case ResizePoint::RIGHT:
 		case ResizePoint::TOP_RIGHT:
 		case ResizePoint::BOTTOM_RIGHT:
-			_BBox.right += offset.x;
+            boundingBox_.right += offset.x;
+            break;
+        default:
+            break;
 	}
-	if (_BBox.left > _BBox.right) {
-		std::swap(_BBox.left, _BBox.right);
+	if (boundingBox_.left > boundingBox_.right) {
+		std::swap(boundingBox_.left, boundingBox_.right);
 	}
-	if (_BBox.top > _BBox.bottom) {
-		std::swap(_BBox.top, _BBox.bottom);
+	if (boundingBox_.top > boundingBox_.bottom) {
+		std::swap(boundingBox_.top, boundingBox_.bottom);
 	}
 	return true;
 }
@@ -61,26 +68,29 @@ bool crv::graphics::Object::OnRotate(float rotateBy) {
 	return true;
 }
 
-crv::graphics::Object::Object(uint32_t obj_num)
-	: _obj_num(obj_num) {
-
-}
-
 float crv::graphics::Object::GetRotation() const {
-	return _rotationDegree;
+	return rotationDegree_;
 }
 
 void crv::graphics::Object::SetRotation(float rotationDegree) {
-	_rotationDegree = rotationDegree;
-	crv::helper::NormalizeRotationDegree(_rotationDegree);
+	rotationDegree_ = rotationDegree;
+	crv::math::NormalizeRotationDegree(rotationDegree_);
 }
 
-const BoundingBoxF& crv::graphics::Object::GetBBox() const {
-	return _BBox;
+const CRV_RectangleF& crv::graphics::Object::GetBBox() const {
+	return boundingBox_;
 }
 
-void crv::graphics::Object::SetBBox(const BoundingBoxF& boundingBox) {
-	_BBox = boundingBox;
+void crv::graphics::Object::SetBBox(const CRV_RectangleF& boundingBox) {
+	boundingBox_ = boundingBox;
+}
+
+float crv::graphics::Object::GetWidth() const {
+	return boundingBox_.right - boundingBox_.left;
+}
+
+float crv::graphics::Object::GetHeight() const {
+	return boundingBox_.bottom - boundingBox_.top;
 }
 
 bool crv::graphics::Object::SupportsColor() const {
@@ -120,11 +130,11 @@ void crv::graphics::Object::SetLineWidth(int width) {
 }
 
 uint32_t crv::graphics::Object::GetObjNum() const {
-	return _obj_num; 
+	return objNum_;
 }
 
 void crv::graphics::Object::SetOjbNum(uint32_t objNum) {
-	_obj_num = objNum;
+	objNum_ = objNum;
 }
 
 bool crv::graphics::Object::IsLine() const {

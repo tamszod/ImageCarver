@@ -1,15 +1,14 @@
 #pragma once
 
-#include "../formats/crv_commonimage.h"
-#include "../formats/crv_bitmap.h"
+#include "utils/types/crv_point.h"
+#include "utils/types/crv_rectangle.h"
+#include "core/graphics/formats/crv_commonimage.h"
+#include "core/graphics/formats/crv_bitmap.h"
 #include "crv_pen.h"
 #include "crv_brush.h"
-#include "../../../utils/type.h"
 
 #include <memory>
 
-/* @
- */
 class CRV_Canvas final {
 public:
 	// Environment management
@@ -45,12 +44,6 @@ public:
 	 */
 	std::unique_ptr<CRV_Brush> SelectBrush(std::unique_ptr<CRV_Brush> brush);
 
-	CRV_Canvas() = default;
-
-	CRV_Canvas(std::unique_ptr<crv::graphics::CommonImage> target, std::unique_ptr<CRV_Pen> pen = nullptr, std::unique_ptr<CRV_Brush> brush = nullptr);
-
-	~CRV_Canvas() = default;
-
 	// Drawing operations
 
 	/* @brief Moves the current drawing position to the specified coordinates.
@@ -73,28 +66,41 @@ public:
 	 *
 	 * @param rect The rectangle to draw, defined by its left, top, right, and bottom coordinates.
 	 */
-	void DrawRectangle(const crv::type::Rectangle& rect);
-	void DrawRectangle(const BoundingBoxF& rect);
+	void DrawRectangle(const CRV_Rectangle & rect);
+	void DrawRectangle(const CRV_RectangleF& rect);
 
 	/* @brief Fills a rectangle defined by the specified coordinates using the currently selected brush.
 	 *
 	 * @param rect The rectangle to fill, defined by its left, top, right, and bottom coordinates.
 	 */
-	void FillRectangle(const crv::type::Rectangle& rect);
-	void FillRectangle(const BoundingBoxF& rect);
+	void FillRectangle(const CRV_Rectangle& rect);
+	void FillRectangle(const CRV_RectangleF& rect);
 
-	void DrawOval(const crv::type::Rectangle& rect);
-	void DrawOval(const BoundingBoxF& rect);
+	void DrawOval(const CRV_Rectangle& rect);
+	void DrawOval(const CRV_RectangleF& rect);
 
-	void FillOval(const crv::type::Rectangle& rect);
-	void FillOval(const BoundingBoxF& rect);
+	void FillOval(const CRV_Rectangle& rect);
+	void FillOval(const CRV_RectangleF& rect);
 
+
+	CRV_Canvas() = default;
+	explicit CRV_Canvas(std::unique_ptr<crv::graphics::CommonImage> target, std::unique_ptr<CRV_Pen> pen = nullptr, std::unique_ptr<CRV_Brush> brush = nullptr);
+	~CRV_Canvas() = default;
 private:
-	std::unique_ptr<crv::graphics::CommonImage> _target{}; // Can be nullpt when no object is attached
-	std::unique_ptr<CRV_Pen> _pen = nullptr;
-	std::unique_ptr<CRV_Brush> _brush = nullptr;
 
-	PointF _currentPosition{ 0, 0 };
+	const CRV_Color& GetSelectedColor();
+	const CRV_Color& GetSelectedBackgroundColor();
+	template<class T = int>
+	T GetSelectedWidth();
+
+	std::unique_ptr<crv::graphics::CommonImage> target_{}; // Can be nullptr when no object is attached
+	std::unique_ptr<CRV_Pen> pen_{}; // Can be null pen
+	std::unique_ptr<CRV_Brush> brush_{}; // Can be null brush
+
+	std::unique_ptr<CRV_Color> fallbackColor_{};
+	std::unique_ptr<CRV_Color> fallbackBackgroundColor_{};
+
+	CRV_PointF _currentPosition{ 0, 0 };
 };
 
 #include "crv_canvas.inl"

@@ -15,7 +15,7 @@ crv::graphics::Bitmap* crv::graphics::CommonImage::AsMutableBitmap() {
 crv::type::ByteStream crv::graphics::CommonImage::Export(Format format, uint8_t flags) {
 	switch (format) {
 		case Format::BMP: {
-			return _ExportAsBMP(flags);
+			return ExportAsBMP(flags);
 		}
 		default: {
 			return crv::type::ByteStream{};

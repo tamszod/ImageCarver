@@ -5,11 +5,11 @@ bool crv::graphics::CommonFigureObject::SupportsFillColor() const {
 }
 
 const std::shared_ptr<CRV_Color> crv::graphics::CommonFigureObject::GetFillColor() const {
-	return _fillColor;
+	return fillColor_;
 }
 
 void crv::graphics::CommonFigureObject::SetFillColor(std::unique_ptr<CRV_Color> color) {
-	_fillColor = std::move(color);
+    fillColor_ = std::move(color);
 }
 
 bool crv::graphics::CommonFigureObject::IsCommonFigure() const {

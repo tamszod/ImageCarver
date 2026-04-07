@@ -60,7 +60,7 @@ bool crv::graphics::Bitmap::SetPixel(int x, int y, const CRV_Color& color) {
 		return false;
 	int idx = (y * _width + x) * _channels;
 	for (size_t i = 0; i < _channels; ++i) {
-		_data[idx + i] = _GetColorValue(i, color);
+		_data[idx + i] = GetColorValue(i, color);
 	}
 	return true;
 }
@@ -80,10 +80,10 @@ bool crv::graphics::Bitmap::SetPixel(float x, float y, const CRV_Color& color)
     float w01 = (1 - dx) * dy;
     float w11 = dx * dy;
 
-    _BlendPixel(x0, y0, color, w00);
-    _BlendPixel(x1, y0, color, w10);
-    _BlendPixel(x0, y1, color, w01);
-    _BlendPixel(x1, y1, color, w11);
+    BlendPixel(x0, y0, color, w00);
+    BlendPixel(x1, y0, color, w10);
+    BlendPixel(x0, y1, color, w01);
+    BlendPixel(x1, y1, color, w11);
 
     return true;
 }
@@ -197,13 +197,13 @@ void crv::graphics::Bitmap::AddLine(float x0, float y0, float x1, float y1,
                 float alpha = 1.0f - (dist - (r - aa)) / (2.0f * aa);
                 alpha = std::clamp(alpha, 0.0f, 1.0f);
 
-                _BlendPixel(x, y, color, alpha);
+                BlendPixel(x, y, color, alpha);
             }
         }
     }
 }
 
-void crv::graphics::Bitmap::FillRectangle(const crv::type::Rectangle& rect, const CRV_Color& backgroundColor) {
+void crv::graphics::Bitmap::FillRectangle(const CRV_Rectangle& rect, const CRV_Color& backgroundColor) {
     int left = std::max(0, rect.left);
     int right = std::min(_width - 1, rect.right);
     int top = std::max(0, rect.top);
@@ -216,7 +216,7 @@ void crv::graphics::Bitmap::FillRectangle(const crv::type::Rectangle& rect, cons
     }
 }
 
-void crv::graphics::Bitmap::FillRectangle(const BoundingBoxF& rect, const CRV_Color& backgroundColor) {
+void crv::graphics::Bitmap::FillRectangle(const CRV_RectangleF& rect, const CRV_Color& backgroundColor) {
     float left = rect.left;
     float right = rect.right;
     float top = rect.top;
@@ -259,32 +259,32 @@ void crv::graphics::Bitmap::FillRectangle(const BoundingBoxF& rect, const CRV_Co
             float coverage = overlapX * overlapY; // 0..1
 
             if (coverage > 0.0f) {
-                _BlendPixel(x, y, backgroundColor, coverage);
+                BlendPixel(x, y, backgroundColor, coverage);
             }
         }
     }
 }
 
-void crv::graphics::Bitmap::AddRectangle(const crv::type::Rectangle& rect, const CRV_Color& color, int width) {
+void crv::graphics::Bitmap::AddRectangle(const CRV_Rectangle& rect, const CRV_Color& color, int width) {
 	AddLine(rect.left, rect.top, rect.right, rect.top, color, width);
 	AddLine(rect.right, rect.top, rect.right, rect.bottom, color, width);
 	AddLine(rect.right, rect.bottom, rect.left, rect.bottom, color, width);
 	AddLine(rect.left, rect.bottom, rect.left, rect.top, color, width);
 }
 
-void crv::graphics::Bitmap::AddRectangle(const BoundingBoxF& rect, const CRV_Color& color, float width) {
+void crv::graphics::Bitmap::AddRectangle(const CRV_RectangleF& rect, const CRV_Color& color, float width) {
 	AddLine(rect.left, rect.top, rect.right, rect.top, color, width);
 	AddLine(rect.right, rect.top, rect.right, rect.bottom, color, width);
 	AddLine(rect.right, rect.bottom, rect.left, rect.bottom, color, width);
 	AddLine(rect.left, rect.bottom, rect.left, rect.top, color, width);
 }
 
-void crv::graphics::Bitmap::AddRectangle(const crv::type::Rectangle& rect, const CRV_Color& color, int width, const CRV_Color& backgroundColor) {
+void crv::graphics::Bitmap::AddRectangle(const CRV_Rectangle& rect, const CRV_Color& color, int width, const CRV_Color& backgroundColor) {
 	FillRectangle(rect, backgroundColor);
 	AddRectangle(rect, color, width);
 }
 
-void crv::graphics::Bitmap::AddRectangle(const BoundingBoxF& rect, const CRV_Color& color, float width, const CRV_Color& backgroundColor) {
+void crv::graphics::Bitmap::AddRectangle(const CRV_RectangleF& rect, const CRV_Color& color, float width, const CRV_Color& backgroundColor) {
 	FillRectangle(rect, backgroundColor);
     crv::type::Rectangle strictRect = {
         (int)std::floor(rect.left),
@@ -292,10 +292,10 @@ void crv::graphics::Bitmap::AddRectangle(const BoundingBoxF& rect, const CRV_Col
         (int)std::ceil(rect.right),
         (int)std::ceil(rect.bottom)
     };
-	AddRectangle(strictRect, color, width);
+	AddRectangle(strictRect, color, static_cast<int>(width));
 }
 
-void crv::graphics::Bitmap::FillOval(const crv::type::Rectangle& rect, const CRV_Color& backgroundColor) {
+void crv::graphics::Bitmap::FillOval(const CRV_Rectangle& rect, const CRV_Color& backgroundColor) {
     int left = std::max(0, rect.left);
     int right = std::min(_width - 1, rect.right);
     int top = std::max(0, rect.top);
@@ -331,7 +331,7 @@ void crv::graphics::Bitmap::FillOval(const crv::type::Rectangle& rect, const CRV
     }
 }
 
-void crv::graphics::Bitmap::FillOval(const BoundingBoxF& rect,
+void crv::graphics::Bitmap::FillOval(const CRV_RectangleF& rect,
     const CRV_Color& backgroundColor) {
     float left = rect.left;
     float right = rect.right;
@@ -388,13 +388,13 @@ void crv::graphics::Bitmap::FillOval(const BoundingBoxF& rect,
                 float alpha = 1.0f - (dist / 0.01f);
                 alpha = std::clamp(alpha, 0.0f, 1.0f);
 
-                _BlendPixel(x, y, backgroundColor, alpha);
+                BlendPixel(x, y, backgroundColor, alpha);
             }
         }
     }
 }
 
-void crv::graphics::Bitmap::AddOval(const crv::type::Rectangle& rect,
+void crv::graphics::Bitmap::AddOval(const CRV_Rectangle& rect,
     const CRV_Color& color, int width)
 {
     float cx = (rect.left + rect.right) * 0.5f;
@@ -438,7 +438,7 @@ void crv::graphics::Bitmap::AddOval(const crv::type::Rectangle& rect,
     }
 }
 
-void crv::graphics::Bitmap::AddOval(const BoundingBoxF& rect,
+void crv::graphics::Bitmap::AddOval(const CRV_RectangleF& rect,
     const CRV_Color& color, float width) {
     float left = rect.left, right = rect.right;
     float top = rect.top, bottom = rect.bottom;
@@ -491,18 +491,18 @@ void crv::graphics::Bitmap::AddOval(const BoundingBoxF& rect,
             else if (dist <= half + aa)
             {
                 float alpha = 1.0f - (dist - (half - aa)) / (2.0f * aa);
-                _BlendPixel(x, y, color, alpha);
+                BlendPixel(x, y, color, alpha);
             }
         }
     }
 }
 
-void crv::graphics::Bitmap::AddOval(const crv::type::Rectangle& rect, const CRV_Color& color, int width, const CRV_Color& backgroundColor) {
+void crv::graphics::Bitmap::AddOval(const CRV_Rectangle& rect, const CRV_Color& color, int width, const CRV_Color& backgroundColor) {
     FillOval(rect, backgroundColor);
     AddOval(rect, color, width);
 }
 
-void crv::graphics::Bitmap::AddOval(const BoundingBoxF& rect, const CRV_Color& color, float width, const CRV_Color& backgroundColor) {
+void crv::graphics::Bitmap::AddOval(const CRV_RectangleF& rect, const CRV_Color& color, float width, const CRV_Color& backgroundColor) {
    
     crv::type::Rectangle strictRect = {
         (int)std::floor(rect.left),
@@ -519,7 +519,7 @@ crv::graphics::Bitmap::Bitmap(int width, int height, int channels)
     _data.resize(_width * _height * _channels);
 }
 
-void crv::graphics::Bitmap::_BlendPixel(int x, int y, const CRV_Color& color, float weight) {
+void crv::graphics::Bitmap::BlendPixel(int x, int y, const CRV_Color& color, float weight) {
     if (x < 0 || x >= _width || y < 0 || y >= _height) {
         return;
     }
@@ -530,16 +530,16 @@ void crv::graphics::Bitmap::_BlendPixel(int x, int y, const CRV_Color& color, fl
 
     for (size_t i = 0; i < _channels; ++i)
     {
-        float existing = (float)_data[idx + i];
-        float incoming = (float)_GetColorValue(i, color);
+        auto existing =  static_cast<float>(_data[idx + i]);
+        auto incoming = static_cast<float>(GetColorValue(i, color));
 
         float out = existing * (1.0f - weight) + incoming * weight;
 
-        _data[idx + i] = (uint8_t)std::clamp(out, 0.0f, 255.0f);
+        _data[idx + i] = static_cast<uint8_t>(std::clamp(out, 0.0f, 255.0f));
     }
 }
 
-crv::type::ByteStream crv::graphics::Bitmap::_ExportAsBMP(uint8_t flags) const {
+crv::type::ByteStream crv::graphics::Bitmap::ExportAsBMP(uint8_t flags) const {
     crv::type::ByteWriter w;
 
     if (_channels != 1 && _channels != 3 && _channels != 4) {
@@ -617,7 +617,7 @@ std::unique_ptr<CRV_Color> crv::graphics::Bitmap24::GetPixelColor(int x, int y) 
 	);
 }
 
-uint8_t crv::graphics::Bitmap24::_GetColorValue(size_t i, const CRV_Color& color) const
+uint8_t crv::graphics::Bitmap24::GetColorValue(size_t i, const CRV_Color& color) const
 {
     switch (i) {
         case 0: {
